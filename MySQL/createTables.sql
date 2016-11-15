@@ -1,10 +1,12 @@
 create database proyectoAd;
 
+use proyectoAd;
+
 create table pieza(
 	codigo varchar(6),
 	nombre varchar(20) not null,
 	precio float not null,
-	descripcion text, 
+	descripcion text,
 	constraint pk_codigo_piezas primary key(codigo)
 );
 
@@ -36,5 +38,3 @@ create table gestion(
 	constraint fk_cod_pieza foreign key(cod_pieza) references pieza(codigo),
 	constraint fk_cod_proyecto foreign key (cod_proyecto) references proyecto(codigo)
 );
-
-
