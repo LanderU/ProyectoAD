@@ -157,6 +157,11 @@ public class VentanaInicio extends javax.swing.JFrame {
         jMenu4.setText("Proyectos");
 
         jMenuItem13.setText("Gestión de Proyecto");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem13);
 
         jMenu9.setText("Consulta de Proyectos");
@@ -306,6 +311,15 @@ public class VentanaInicio extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        // Llamar a ventana de gestion de proyectos
+        
+        GestionProyectos gProy = new GestionProyectos();
+        gProy.setVisible(true);
+        
+        
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     /**
      * @param args the command line arguments
