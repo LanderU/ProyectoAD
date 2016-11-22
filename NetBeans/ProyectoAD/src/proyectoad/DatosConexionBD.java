@@ -12,10 +12,10 @@ package proyectoad;
 public class DatosConexionBD {
     
     private String FOR_NAME="com.mysql.jdbc.Driver";
-    private String CONNECTION="jdbc:mysql://localhost/";
+    private String CONNECTION="jdbc:mysql://192.168.33.10/";
     private String USERNAME="root";
-    private String PASSWORD="erle";
-    private String CONNECTION_SCHEMA="jdbc:mysql://localhost/proyectoAd?noAccessToProcedureBodies=true";
+    private String PASSWORD="root";
+    private String CONNECTION_SCHEMA="jdbc:mysql://192.168.33.10/proyectoAd?noAccessToProcedureBodies=true";
 
     public String getCONNECTION_SCHEMA() {
         return CONNECTION_SCHEMA;
