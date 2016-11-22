@@ -11,6 +11,14 @@ package proyectoad;
  */
 public class DatosConexionBD {
     
+    //Lander
+    //private String FOR_NAME="com.mysql.jdbc.Driver";
+    //private String CONNECTION="jdbc:mysql://localhost/";
+    //private String USERNAME="root";
+    //private String PASSWORD="erle";
+    //private String CONNECTION_SCHEMA="jdbc:mysql://localhost/proyectoAd?noAccessToProcedureBodies=true";
+    
+    // Alberto
     private String FOR_NAME="com.mysql.jdbc.Driver";
     private String CONNECTION="jdbc:mysql://192.168.33.10/";
     private String USERNAME="root";
