@@ -74,7 +74,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             this.jMenuItem2.setEnabled(false);
 
     }
-
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -292,7 +292,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
        
         //Ventana de gestion de proveedores
