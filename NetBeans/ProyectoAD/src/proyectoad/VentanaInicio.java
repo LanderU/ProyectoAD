@@ -5,6 +5,16 @@
  */
 package proyectoad;
 
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -14,8 +24,58 @@ public class VentanaInicio extends javax.swing.JFrame {
     /**
      * Creates new form VentanaInicio
      */
-    public VentanaInicio() {
+    public boolean checkDataBase(){
+        boolean flag = false;
+        try {
+            
+            DatosConexionBD datosCon = new DatosConexionBD();
+            try {
+                Class.forName(datosCon.getFOR_NAME());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Connection con = null;
+            try {
+                con = DriverManager.getConnection(datosCon.getCONNECTION(),datosCon.getUSERNAME(),datosCon.getPASSWORD());
+            } catch (SQLException ex) {
+                Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DatabaseMetaData metaDatos = null;
+            try {
+                metaDatos = con.getMetaData();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error en la BD");
+            }
+            ResultSet auditar = metaDatos.getCatalogs();
+            while (auditar.next()) {
+                System.out.println(auditar.getString("TABLE_CAT"));
+                if (auditar.getString("TABLE_CAT").equals("proyectoAd"))
+                    return true;
+            }
+            
+        }//checkDataBase
+        catch (SQLException ex) {
+            Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return flag;   
+    }// end checkDataBase
+    
+    public VentanaInicio(){
         initComponents();
+        this.jMenu2.setEnabled(false);
+        this.jMenu3.setEnabled(false);
+        this.jMenu4.setEnabled(false);
+        this.jMenu5.setEnabled(false);
+        this.jMenu6.setEnabled(false);
+        this.jMenu7.setEnabled(false);
+        this.jMenu8.setEnabled(false);
+        this.jMenu9.setEnabled(false);
+        if(checkDataBase()){ 
+            this.jMenuItem1.setEnabled(false);   
+        }else{
+            this.jMenuItem2.setEnabled(false);
+        }
     }
 
     /**
@@ -65,6 +125,11 @@ public class VentanaInicio extends javax.swing.JFrame {
         jMenu1.setText("Base de Datos");
 
         jMenuItem1.setText("Crear Base de Datos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Eliminar Base de Datos");
@@ -335,6 +400,11 @@ public class VentanaInicio extends javax.swing.JFrame {
                
         
     }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
