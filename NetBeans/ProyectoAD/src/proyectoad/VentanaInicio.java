@@ -27,7 +27,6 @@ public class VentanaInicio extends javax.swing.JFrame {
     public boolean checkDataBase(){
         boolean flag = false;
         try {
-            
             DatosConexionBD datosCon = new DatosConexionBD();
             try {
                 Class.forName(datosCon.getFOR_NAME());
@@ -48,7 +47,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             }
             ResultSet auditar = metaDatos.getCatalogs();
             while (auditar.next()) {
-                System.out.println(auditar.getString("TABLE_CAT"));
+                //System.out.println(auditar.getString("TABLE_CAT"));
                 if (auditar.getString("TABLE_CAT").equals("proyectoAd"))
                     return true;
             }
@@ -57,7 +56,6 @@ public class VentanaInicio extends javax.swing.JFrame {
         catch (SQLException ex) {
             Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         return flag;   
     }// end checkDataBase
     
@@ -75,7 +73,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             this.jMenuItem1.setEnabled(false);   
         }else{
             this.jMenuItem2.setEnabled(false);
-        }
+
     }
 
     /**
