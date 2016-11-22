@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +23,8 @@ public class VentanaInicio extends javax.swing.JFrame {
     /**
      * Creates new form VentanaInicio
      */
-    public void checkDataBase(){
+    public boolean checkDataBase(){
+        boolean flag = false;
         try {
             DatosConexionBD datosCon = new DatosConexionBD();
             try {
@@ -40,23 +42,37 @@ public class VentanaInicio extends javax.swing.JFrame {
             try {
                 metaDatos = con.getMetaData();
             } catch (SQLException ex) {
-                System.out.println("kk");
+                JOptionPane.showMessageDialog(null, "Error en la BD");
             }
             ResultSet auditar = metaDatos.getCatalogs();
             while (auditar.next()) {
-                System.out.println(auditar.getString("TABLE_CAT"));
+                //System.out.println(auditar.getString("TABLE_CAT"));
+                if (auditar.getString("TABLE_CAT").equals("proyectoAd"))
+                    return true;
             }
             
         }//checkDataBase
         catch (SQLException ex) {
             Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }
+        return flag;   
+    }// end checkDataBase
     
     public VentanaInicio(){
         initComponents();
-        checkDataBase();
+        this.jMenu2.setEnabled(false);
+        this.jMenu3.setEnabled(false);
+        this.jMenu4.setEnabled(false);
+        this.jMenu5.setEnabled(false);
+        this.jMenu6.setEnabled(false);
+        this.jMenu7.setEnabled(false);
+        this.jMenu8.setEnabled(false);
+        this.jMenu9.setEnabled(false);
+        if(checkDataBase()){ 
+            this.jMenuItem1.setEnabled(false);   
+        }else{
+            this.jMenuItem2.setEnabled(false);
+
     }
 
     /**
