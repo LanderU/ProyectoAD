@@ -5,11 +5,18 @@
  */
 package proyectoad;
 
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,6 +30,83 @@ public class VentanaInicio extends javax.swing.JFrame {
     /**
      * Creates new form VentanaInicio
      */
+    
+    public static void crearDataBase(){
+        DatosConexionBD datosConexion = new DatosConexionBD();
+        BufferedReader input = null;
+        try {
+           input = new BufferedReader(new FileReader(new File("createSchema.sql")));
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "El script de creación no existe");
+        }
+        String linea = null;
+        StringBuilder crearSentencia = new StringBuilder();
+        String salto = System.getProperty("line.separator");
+        try {
+            while ((linea = input.readLine()) != null){
+                crearSentencia.append(linea);
+                crearSentencia.append(salto);
+            }// end while
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "Error al procesar el fichero");
+        }
+        
+        String sql =  crearSentencia.toString();
+        //Debug
+        //System.out.println(sql);
+
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+        } catch (ClassNotFoundException e) {
+           JOptionPane.showMessageDialog(null, "Inserte el driver MySQL");
+        }
+        Connection con = null;
+        try{
+            con = DriverManager.getConnection(datosConexion.getCONNECTION(),datosConexion.getUSERNAME(),datosConexion.getPASSWORD());
+            Statement sentencia = con.createStatement();
+            //System.out.println(sql);
+            
+            int ok = sentencia.executeUpdate(sql);
+            
+            if (ok != 0){
+                con.close();
+                JOptionPane.showMessageDialog(null, "Schema creado!!");
+                try {
+                     input = new BufferedReader(new FileReader(new File("createTables.sql")));
+                } catch (FileNotFoundException e) {
+                    JOptionPane.showMessageDialog(null, "El script de creación no existe");
+                }
+                linea = null;
+                crearSentencia = new StringBuilder();
+                try {
+                    while ((linea = input.readLine()) != null){
+                        crearSentencia.append(linea);
+                        crearSentencia.append(salto);
+                    }// end while
+                }catch(IOException e){
+                    JOptionPane.showMessageDialog(null, "Error al procesar el fichero");
+                }
+                
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(),datosConexion.getUSERNAME(),datosConexion.getPASSWORD());
+                sentencia = con.createStatement();
+                //sql ="create table pieza (codigo varchar(6),nombre varchar(20) not null, precio float not null, descripcion text, constraint pk_codigo_piezas primary key(codigo))";
+                System.out.println(sql);
+                ok = sentencia.executeUpdate(sql);
+                if (ok != 0){
+                    JOptionPane.showMessageDialog(null, "Tablas e insert creados");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al crear las tablas");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al crear la BD");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Imposible realizar la conexión con la BD");
+        
+        }
+          
+    }// end crearDatabase
+
     public boolean checkDataBase(){
         boolean flag = false;
         try {
@@ -46,11 +130,14 @@ public class VentanaInicio extends javax.swing.JFrame {
             }
             ResultSet auditar = metaDatos.getCatalogs();
             while (auditar.next()) {
-                //System.out.println(auditar.getString("TABLE_CAT"));
+                System.out.println(auditar.getString("TABLE_CAT"));
                 if (auditar.getString("TABLE_CAT").equals("proyectoAd"))
                     return true;
             }
-            
+            // Cerramos la BD
+            auditar.close();
+            // Stream
+            con.close();
         }//checkDataBase
         catch (SQLException ex) {
             Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,6 +147,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     
     public VentanaInicio(){
         initComponents();
+        crearDataBase();
         this.jMenu2.setEnabled(false);
         this.jMenu3.setEnabled(false);
         this.jMenu4.setEnabled(false);
@@ -72,7 +160,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             this.jMenuItem1.setEnabled(false);   
         }else{
             this.jMenuItem2.setEnabled(false);
-
+        }
     }
     }
     /**
