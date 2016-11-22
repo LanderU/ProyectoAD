@@ -106,10 +106,10 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
           
     }// end crearDatabase
+
     public boolean checkDataBase(){
         boolean flag = false;
         try {
-            
             DatosConexionBD datosCon = new DatosConexionBD();
             try {
                 Class.forName(datosCon.getFOR_NAME());
@@ -142,7 +142,6 @@ public class VentanaInicio extends javax.swing.JFrame {
         catch (SQLException ex) {
             Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         return flag;   
     }// end checkDataBase
     

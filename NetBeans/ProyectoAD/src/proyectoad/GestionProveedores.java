@@ -5,6 +5,8 @@
  */
 package proyectoad;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -334,14 +336,23 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void botInsertarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInsertarProveedorActionPerformed
 
         //Boton de insertar nuevo proveedor
-        
         //Comprobar que los text fields necesarios esten repletos
-        
-        
+        if (jTextField1.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el codigo de proveedor");
+        } else if (jTextField2.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el nombre de proveedor");
+        } else if (jTextField3.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el Apellido de proveedor");
+
+        }//fin de else
+
         //Llamar a la funcion que haga la insercion
         
         
         
+        //JOptionPane.showMessageDialog(rootPane, "Inserción realizada correctamente.");
+
+
     }//GEN-LAST:event_botInsertarProveedorActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -353,22 +364,17 @@ public class GestionProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void botEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEliminarProveedorActionPerformed
-        
+
         //BOTON DE ELIMINAR
-        
         //Mostrar ventana de seguro que......
-        
         //Llamar a la funcion de eliminar
-        
-        
+
     }//GEN-LAST:event_botEliminarProveedorActionPerformed
 
     private void botModificarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botModificarProveedorActionPerformed
 
         //Modificamos el Proveedor cargado
-        
         //comprobamos que los campos necesarios estan repletos
-        
         //Llamamos a la funcion de modificar
 
     }//GEN-LAST:event_botModificarProveedorActionPerformed
@@ -376,9 +382,7 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void botCargarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarProveedoresActionPerformed
 
         //Consulta para rellenar los campos
-        
-        
-        
+
     }//GEN-LAST:event_botCargarProveedoresActionPerformed
 
     /**
