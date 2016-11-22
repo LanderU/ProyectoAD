@@ -350,7 +350,7 @@ public class GestionProveedores extends javax.swing.JFrame {
         
         
         
-        JOptionPane.showMessageDialog(rootPane, "Inserción realizada correctamente.");
+        //JOptionPane.showMessageDialog(rootPane, "Inserción realizada correctamente.");
 
 
     }//GEN-LAST:event_botInsertarProveedorActionPerformed
