@@ -10,7 +10,7 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL insertar_pieza(123456,'Cañero', 155.20, 'Esto es lo que se usa para beber');
+--CALL insertar_pieza(123456,'Cañero', 155.20, 'Esto es lo que se usa para beber');
 
 
 --Modificar un pieza ___________________________________________________________________________________
@@ -28,7 +28,7 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL modificar_pieza(123456,'Cañero', 155.20, 'Esto es lo que se usa para beber');
+--CALL modificar_pieza(123456,'Cañero', 155.20, 'Esto es lo que se usa para beber');
 
 
 --eliminar una pieza ___________________________________________________________________________________
@@ -42,4 +42,4 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL eliminar_pieza(123456);
+--CALL eliminar_pieza(123456);

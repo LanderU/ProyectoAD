@@ -10,7 +10,7 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL insertar_proveedor(012030,'joseLuis', 'maruenda', 'loliloiloi');
+--CALL insertar_proveedor(012030,'joseLuis', 'maruenda', 'loliloiloi');
 
 
 --Modificar un proveedor__________________________________________________________________________________
@@ -29,7 +29,7 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL modificar_proveedor(012030,'LuisMaria', 'maruenda', 'loliloiloi');
+--CALL modificar_proveedor(012030,'LuisMaria', 'maruenda', 'loliloiloi');
 
 
 --eliminar un proveedor___________________________________________________________________________________
@@ -43,4 +43,4 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL eliminar_proveedor(012030);
+--CALL eliminar_proveedor(012030);

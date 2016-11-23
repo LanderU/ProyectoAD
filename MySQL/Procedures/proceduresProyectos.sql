@@ -10,7 +10,7 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL insertar_proyecto(123456,'Cañero',  'Esto es lo que se usa para beber');
+--CALL insertar_proyecto(123456,'Cañero',  'Esto es lo que se usa para beber');
 
 
 --Modificar un proyecto ___________________________________________________________________________________
@@ -28,7 +28,7 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL modificar_proyecto(123456,'es la caña', 'Esto es lo que se usa para beber');
+--CALL modificar_proyecto(123456,'es la caña', 'Esto es lo que se usa para beber');
 
 
 --eliminar una proyecto ___________________________________________________________________________________
@@ -42,4 +42,4 @@ END//
 DELIMITER ;
 
 --Para utilizarlo lo llamamos de la siguiente forma
-CALL eliminar_proyecto(123456);
+--CALL eliminar_proyecto(123456);

@@ -66,6 +66,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             //System.out.println(sql);
             
             int ok = sentencia.executeUpdate(sql);
+            System.out.println(sql);
             
             if (ok != 0){
                 
@@ -79,7 +80,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Imposible realizar la conexión con la BD");
-        
+            System.out.println(e.getMessage());
         }
           
     }// end crearDatabase

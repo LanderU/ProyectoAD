@@ -65,4 +65,74 @@ insert into gestion values('pro002','pie002','y00002', 150);
 insert into gestion values('pro003','pie003','y00003', 120);
 insert into gestion values('pro004','pie004','y00004', 110);
 
+CREATE PROCEDURE insertar_pieza(cod_pieza varchar(6), nombre_pieza VARCHAR(20), precio_pieza float, descripcion_pieza varchar(40))
+COMMENT 'Procedimiento que inserta une pieza a la base de datos'
+BEGIN
+INSERT INTO pieza(codigo, nombre, precio, descripcion)
+VALUES ( cod_pieza, nombre_pieza , precio_pieza, descripcion_pieza);
+END;
 
+CREATE PROCEDURE modificar_pieza(cod_pieza varchar(6), nombre_pieza VARCHAR(20), precio_pieza float, descripcion_pieza varchar(40))
+COMMENT 'Procedimiento que modifica una pieza de la base de datos'
+BEGIN
+update pieza
+		set nombre = nombre_pieza,
+		    precio = precio_pieza,
+		    descripcion = descripcion_pieza
+	where codigo = cod_pieza;
+END;
+
+CREATE PROCEDURE eliminar_pieza(cod_pieza varchar(6))
+COMMENT 'Procedimiento que elimina a una pieza de la base de datos'
+BEGIN
+DELETE FROM pieza where codigo = cod_pieza;
+END;
+
+CREATE PROCEDURE insertar_proveedor(cod_proveedor varchar(6), nombre_proveedor VARCHAR(20), apellido_proveedor VARCHAR(30), direccion_proveedor varchar(40))
+COMMENT 'Procedimiento que inserta un cliente a la base de datos'
+BEGIN
+INSERT INTO proveedor(codigo, nombre, apellidos, direccion)
+VALUES ( cod_proveedor, nombre_proveedor , apellido_proveedor, direccion_proveedor);
+END;
+
+CREATE PROCEDURE modificar_proveedor(cod_proveedor varchar(6), nombre_proveedor VARCHAR(20), apellido_proveedor VARCHAR(30), direccion_proveedor varchar(40))
+COMMENT 'Procedimiento que modifica a un proveedor de la base de datos'
+BEGIN
+update proveedor
+		set nombre = nombre_proveedor,
+		 apellidos = apellido_proveedor,
+		 direccion = direccion_proveedor
+	where codigo = cod_proveedor;
+
+END;
+
+CREATE PROCEDURE eliminar_proveedor(cod_proveedor varchar(6))
+COMMENT 'Procedimiento que elimina a un proveedor de la base de datos'
+BEGIN
+DELETE FROM proveedor where codigo = cod_proveedor;
+END;
+
+CREATE PROCEDURE insertar_proyecto(cod_proyecto varchar(6), nombre_proyecto VARCHAR(40),   ciudad_proyecto varchar(40))
+COMMENT 'Procedimiento que inserta un proyecto a la base de datos'
+BEGIN
+INSERT INTO proyecto(codigo, nombre, ciudad)
+VALUES ( cod_proyecto, nombre_proyecto , ciudad_proyecto);
+END;
+
+CREATE PROCEDURE modificar_proyecto(cod_proyecto varchar(6), nombre_proyecto VARCHAR(40), ciudad_proyecto varchar(40))
+COMMENT 'Procedimiento que modifica un proyecto de la base de datos'
+BEGIN
+update proyecto
+		set nombre = nombre_proyecto,
+		    ciudad = ciudad_proyecto
+		    
+	where codigo = cod_proyecto;
+END;
+
+CREATE PROCEDURE eliminar_proyecto(cod_proyecto varchar(6))
+COMMENT 'Procedimiento que elimina a un proyecto de la base de datos'
+BEGIN
+DELETE FROM proyecto where codigo = cod_proyecto;
+END;
+
+commit;
