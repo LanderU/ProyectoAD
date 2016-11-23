@@ -34,7 +34,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         DatosConexionBD datosConexion = new DatosConexionBD();
         BufferedReader input = null;
         try {
-           input = new BufferedReader(new FileReader(new File("createSchema.sql")));
+           input = new BufferedReader(new FileReader(new File("createTables.sql")));
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "El script de creación no existe");
         }
@@ -68,36 +68,14 @@ public class VentanaInicio extends javax.swing.JFrame {
             int ok = sentencia.executeUpdate(sql);
             
             if (ok != 0){
-                con.close();
-                JOptionPane.showMessageDialog(null, "Schema creado!!");
-                try {
-                     input = new BufferedReader(new FileReader(new File("createTables.sql")));
-                } catch (FileNotFoundException e) {
-                    JOptionPane.showMessageDialog(null, "El script de creación no existe");
-                }
-                linea = null;
-                crearSentencia = new StringBuilder();
-                try {
-                    while ((linea = input.readLine()) != null){
-                        crearSentencia.append(linea);
-                        crearSentencia.append(salto);
-                    }// end while
-                }catch(IOException e){
-                    JOptionPane.showMessageDialog(null, "Error al procesar el fichero");
-                }
                 
-                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(),datosConexion.getUSERNAME(),datosConexion.getPASSWORD());
-                sentencia = con.createStatement();
-                //sql ="create table pieza (codigo varchar(6),nombre varchar(20) not null, precio float not null, descripcion text, constraint pk_codigo_piezas primary key(codigo))";
-                System.out.println(sql);
-                ok = sentencia.executeUpdate(sql);
-                if (ok != 0){
-                    JOptionPane.showMessageDialog(null, "Tablas e insert creados");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Error al crear las tablas");
-                }
+                JOptionPane.showMessageDialog(null, "Base De datos creada");
+                con.close();
+                
             }else{
+                
                 JOptionPane.showMessageDialog(null, "Error al crear la BD");
+                
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Imposible realizar la conexión con la BD");
@@ -146,7 +124,6 @@ public class VentanaInicio extends javax.swing.JFrame {
     
     public VentanaInicio(){
         initComponents();
-        crearDataBase();
         this.jMenu2.setEnabled(false);
         this.jMenu3.setEnabled(false);
         this.jMenu4.setEnabled(false);
@@ -492,6 +469,9 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        crearDataBase();
+        this.jMenuItem1.setEnabled(false);
+        this.jMenuItem2.setEnabled(true);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
