@@ -12,3 +12,8 @@
 hs_err_pid*
 /NetBeans/ProyectoAD/nbproject/private/
 /NetBeans/ProyectoAD/build/
+/NetBeans/ServidorGUI/nbproject/private/
+/NetBeans/ServidorGUI/build/
+/NetBeans/ServidorFTPHilos/nbproject/private/
+/NetBeans/ServidorFTPHilos/build/
+.DS_Store

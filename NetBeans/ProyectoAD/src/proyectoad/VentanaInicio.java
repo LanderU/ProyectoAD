@@ -5,7 +5,6 @@
  */
 package proyectoad;
 
-import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -161,7 +160,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         }else{
             this.jMenuItem2.setEnabled(false);
         }
-    }
+    
     }
     /**
      * This method is called from within the constructor to initialize the form.
