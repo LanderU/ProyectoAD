@@ -356,17 +356,15 @@ public class GestionProveedores extends javax.swing.JFrame {
 
             Connection con = null;
             try {
-           
-                
-                
+                //Abrimos la conexion
                 con = DriverManager.getConnection(datosConexion.getCONNECTION(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-                    //Añadir use proyectoAd para que lo use por defecto!!
-                 Statement sentencia = con.createStatement();
+                //Añadir use proyectoAd para que lo use por defecto!!
+                Statement sentencia = con.createStatement();
                 String sql = "use proyectoAd;";
                 sentencia.executeQuery(sql);
-                
-                 sql = "CALL insertar_proveedor(?,?,?,?);";
 
+                //Llamar al procedimiento para insertar un proveedor
+                sql = "CALL insertar_proveedor(?,?,?,?);";
                 PreparedStatement insercion = con.prepareStatement(sql);
 
                 // Añadimos los valores a la sentencia
@@ -424,7 +422,9 @@ public class GestionProveedores extends javax.swing.JFrame {
 
     private void botCargarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarProveedoresActionPerformed
 
-        //Consulta para rellenar los campos
+        //Boton de cargar proveedores
+        
+        
 
     }//GEN-LAST:event_botCargarProveedoresActionPerformed
 

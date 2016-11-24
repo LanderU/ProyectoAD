@@ -125,18 +125,27 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     public VentanaInicio() {
         initComponents();
-        this.jMenu2.setEnabled(false);
-        this.jMenu3.setEnabled(false);
-        this.jMenu4.setEnabled(false);
-        this.jMenu5.setEnabled(false);
-        this.jMenu6.setEnabled(false);
-        this.jMenu7.setEnabled(false);
-        this.jMenu8.setEnabled(false);
-        this.jMenu9.setEnabled(false);
+
         if (checkDataBase()) {
             this.jMenuItem1.setEnabled(false);
+            this.jMenu2.setEnabled(true);
+            this.jMenu3.setEnabled(true);
+            this.jMenu4.setEnabled(true);
+            this.jMenu5.setEnabled(true);
+            this.jMenu6.setEnabled(true);
+            this.jMenu7.setEnabled(true);
+            this.jMenu8.setEnabled(true);
+            this.jMenu9.setEnabled(true);
         } else {
             this.jMenuItem2.setEnabled(false);
+            this.jMenu2.setEnabled(false);
+            this.jMenu3.setEnabled(false);
+            this.jMenu4.setEnabled(false);
+            this.jMenu5.setEnabled(false);
+            this.jMenu6.setEnabled(false);
+            this.jMenu7.setEnabled(false);
+            this.jMenu8.setEnabled(false);
+            this.jMenu9.setEnabled(false);
         }
 
     }
