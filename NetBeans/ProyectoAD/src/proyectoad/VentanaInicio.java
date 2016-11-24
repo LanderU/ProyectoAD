@@ -195,6 +195,11 @@ public class VentanaInicio extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Eliminar Base de Datos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Salir");
@@ -477,8 +482,46 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
+        // Boton de Salir
+        
+        System.exit(0);
+        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        //Boton de eliminar base de datos
+        
+                DatosConexionBD datosConexion = new DatosConexionBD();
+
+        
+         Connection con = null;
+        try{
+            con = DriverManager.getConnection(datosConexion.getCONNECTION(),datosConexion.getUSERNAME(),datosConexion.getPASSWORD());
+            Statement sentencia = con.createStatement();
+        
+            String sql = "drop schema proyectoAd;";
+            int ok = sentencia.executeUpdate(sql);
+            System.out.println(sql);
+            
+            if (ok != 0){
+                
+                JOptionPane.showMessageDialog(null, "Base De datos Borrada");
+                con.close();
+                
+            }else{
+                
+                JOptionPane.showMessageDialog(null, "Error al borrar la BD");
+                
+            }
+        
+        
+        
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Ha sido imposible borrar la BD");
+        }
+        
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
