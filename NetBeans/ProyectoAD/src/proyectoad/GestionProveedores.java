@@ -5,6 +5,7 @@
  */
 package proyectoad;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -360,8 +361,8 @@ public class GestionProveedores extends javax.swing.JFrame {
                 con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
             
                 //Llamar al procedimiento para insertar un proveedor
-                String sql = "CALL insertar_proveedor(?,?,?,?);";
-                PreparedStatement insercion = con.prepareStatement(sql);
+                String sql = "{call insertar_proveedor(?,?,?,?)}";
+                CallableStatement insercion = con.prepareCall(sql);
 
                 // Añadimos los valores a la sentencia
                 insercion.setString(1, jTextField1.getText());
@@ -369,17 +370,20 @@ public class GestionProveedores extends javax.swing.JFrame {
                 insercion.setString(3, jTextField1.getText());
                 insercion.setString(4, jTextField1.getText());
 
-                int ok = insercion.executeUpdate(sql);
+                int ok = insercion.executeUpdate();
+                
                 System.out.println(sql);
 
                 if (ok != 0) {
 
                     JOptionPane.showMessageDialog(null, "Proveedor añadido a la BD");
+                    insercion.close();
                     con.close();
 
                 } else {
 
                     JOptionPane.showMessageDialog(null, "Error al añadir al proveedor a la BD");
+                    insercion.close();
                     con.close();
                 }
 
