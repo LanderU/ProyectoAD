@@ -357,14 +357,10 @@ public class GestionProveedores extends javax.swing.JFrame {
             Connection con = null;
             try {
                 //Abrimos la conexion
-                con = DriverManager.getConnection(datosConexion.getCONNECTION(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-                //Añadir use proyectoAd para que lo use por defecto!!
-                Statement sentencia = con.createStatement();
-                String sql = "use proyectoAd;";
-                sentencia.executeQuery(sql);
-
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+            
                 //Llamar al procedimiento para insertar un proveedor
-                sql = "CALL insertar_proveedor(?,?,?,?);";
+                String sql = "CALL insertar_proveedor(?,?,?,?);";
                 PreparedStatement insercion = con.prepareStatement(sql);
 
                 // Añadimos los valores a la sentencia
@@ -389,6 +385,7 @@ public class GestionProveedores extends javax.swing.JFrame {
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Ha sido imposible añadir al proveedor" + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
             }
 
         }
