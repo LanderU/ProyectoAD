@@ -5,6 +5,11 @@
  */
 package proyectoad;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /**
@@ -344,13 +349,51 @@ public class GestionProveedores extends javax.swing.JFrame {
         } else if (jTextField3.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduce el Apellido de proveedor");
 
-        }//fin de else
+        } else {
+            //Llamar a la funcion que haga la insercion
 
-        //Llamar a la funcion que haga la insercion
-        
-        
-        
-        //JOptionPane.showMessageDialog(rootPane, "Inserción realizada correctamente.");
+            DatosConexionBD datosConexion = new DatosConexionBD();
+
+            Connection con = null;
+            try {
+           
+                
+                
+                con = DriverManager.getConnection(datosConexion.getCONNECTION(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+                    //Añadir use proyectoAd para que lo use por defecto!!
+                 Statement sentencia = con.createStatement();
+                String sql = "use proyectoAd;";
+                sentencia.executeQuery(sql);
+                
+                 sql = "CALL insertar_proveedor(?,?,?,?);";
+
+                PreparedStatement insercion = con.prepareStatement(sql);
+
+                // Añadimos los valores a la sentencia
+                insercion.setString(1, jTextField1.getText());
+                insercion.setString(2, jTextField1.getText());
+                insercion.setString(3, jTextField1.getText());
+                insercion.setString(4, jTextField1.getText());
+
+                int ok = insercion.executeUpdate(sql);
+                System.out.println(sql);
+
+                if (ok != 0) {
+
+                    JOptionPane.showMessageDialog(null, "Proveedor añadido a la BD");
+                    con.close();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al añadir al proveedor a la BD");
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir al proveedor" + e.getMessage());
+            }
+
+        }
 
 
     }//GEN-LAST:event_botInsertarProveedorActionPerformed
