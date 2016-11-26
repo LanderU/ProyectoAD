@@ -107,7 +107,6 @@ public class VentanaInicio extends javax.swing.JFrame {
             }
             ResultSet auditar = metaDatos.getCatalogs();
             while (auditar.next()) {
-                System.out.println(auditar.getString("TABLE_CAT"));
                 if (auditar.getString("TABLE_CAT").equals("proyectoAd")) {
                     return true;
                 }
