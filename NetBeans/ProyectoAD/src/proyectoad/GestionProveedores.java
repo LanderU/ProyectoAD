@@ -7,6 +7,7 @@ package proyectoad;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -473,7 +474,9 @@ public class GestionProveedores extends javax.swing.JFrame {
         }
 
         try {
+
             Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
             Statement query = con.createStatement();
             String sql = "SELECT * FROM proveedor ORDER BY codigo;";
             resultado = query.executeQuery(sql);
