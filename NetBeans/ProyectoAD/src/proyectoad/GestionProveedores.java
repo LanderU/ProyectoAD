@@ -5,11 +5,14 @@
  */
 package proyectoad;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,8 +24,12 @@ public class GestionProveedores extends javax.swing.JFrame {
     /**
      * Creates new form GestionProveedores
      */
+    
+    DatosConexionBD datosConexion = null;
     public GestionProveedores() {
         initComponents();
+        this.jLabelActualProveedor.setVisible(false);
+        this.jLabelFinalProveedor.setVisible(false);
     }
 
     /**
@@ -186,12 +193,32 @@ public class GestionProveedores extends javax.swing.JFrame {
         jTextField8.setEditable(false);
 
         botInicioProveedor.setText("<<");
+        botInicioProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botInicioProveedorActionPerformed(evt);
+            }
+        });
 
         botAtrasProveedor.setText("<");
+        botAtrasProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAtrasProveedorActionPerformed(evt);
+            }
+        });
 
         botAdelanteProveedor.setText(">");
+        botAdelanteProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAdelanteProveedorActionPerformed(evt);
+            }
+        });
 
         botFinalProveedor.setText(">>");
+        botFinalProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botFinalProveedorActionPerformed(evt);
+            }
+        });
 
         botCargarProveedores.setText("CARGAR PROVEEDORES");
         botCargarProveedores.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +355,9 @@ public class GestionProveedores extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    // Contador
+    private int contador = 0;
+    ResultSet resultado = null;
 
     private void botLimpiarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarProveedorActionPerformed
         // TODO add your handling code here:
@@ -344,47 +374,61 @@ public class GestionProveedores extends javax.swing.JFrame {
         //Comprobar que los text fields necesarios esten repletos
         if (jTextField1.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduce el codigo de proveedor");
+        } else if (jTextField1.getText().length() > 6) {
+            JOptionPane.showMessageDialog(null, "El código no puede superar los 6 caracteres");
         } else if (jTextField2.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduce el nombre de proveedor");
+        } else if (jTextField2.getText().length() > 20) {
+            JOptionPane.showMessageDialog(rootPane, "El nombre no puede superar los 20 caracteres");
         } else if (jTextField3.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduce el Apellido de proveedor");
-
+        } else if (jTextField3.getText().length() > 30) {
+            JOptionPane.showMessageDialog(rootPane, "El campo apellido no puede superar los 30 caracteres");
+        } else if (jTextField4.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor introduce la dirección del proveedor");
+        } else if (jTextField4.getText().length() > 40) {
+            JOptionPane.showMessageDialog(rootPane, "El campo dirección no puede superar los 40 caracteres");
         } else {
             //Llamar a la funcion que haga la insercion
 
-            DatosConexionBD datosConexion = new DatosConexionBD();
+            datosConexion = new DatosConexionBD();
 
             Connection con = null;
             try {
                 //Abrimos la conexion
                 con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-            
+
                 //Llamar al procedimiento para insertar un proveedor
-                String sql = "CALL insertar_proveedor(?,?,?,?);";
-                PreparedStatement insercion = con.prepareStatement(sql);
+                String sql = "{call insertar_proveedor(?,?,?,?)}";
+                CallableStatement insercion = con.prepareCall(sql);
 
                 // Añadimos los valores a la sentencia
                 insercion.setString(1, jTextField1.getText());
-                insercion.setString(2, jTextField1.getText());
-                insercion.setString(3, jTextField1.getText());
-                insercion.setString(4, jTextField1.getText());
+                insercion.setString(2, jTextField2.getText());
+                insercion.setString(3, jTextField3.getText());
+                insercion.setString(4, jTextField4.getText());
 
-                int ok = insercion.executeUpdate(sql);
-                System.out.println(sql);
+                int ok = insercion.executeUpdate();
 
                 if (ok != 0) {
 
                     JOptionPane.showMessageDialog(null, "Proveedor añadido a la BD");
+                    insercion.close();
                     con.close();
+                    jTextField1.setText("");
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
 
                 } else {
 
                     JOptionPane.showMessageDialog(null, "Error al añadir al proveedor a la BD");
+                    insercion.close();
                     con.close();
                 }
 
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir al proveedor" + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir al proveedor " + e.getMessage());
                 System.out.println("Error->" + e.getMessage());
             }
 
@@ -420,10 +464,123 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void botCargarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarProveedoresActionPerformed
 
         //Boton de cargar proveedores
-        
-        
+       datosConexion = new DatosConexionBD();
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
 
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+
+        try {
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+            Statement query = con.createStatement();
+            String sql = "SELECT * FROM proveedor ORDER BY codigo;";
+            resultado = query.executeQuery(sql);
+
+            if (resultado.next()) {
+                System.out.println(resultado.getString(1));
+                System.out.println(resultado.getString(2));
+
+                this.jTextField8.setText(resultado.getString(1));
+                this.jTextField5.setText(resultado.getString(2));
+                this.jTextField6.setText(resultado.getString(3));
+                this.jTextField7.setText(resultado.getString(4));
+                contador = 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botCargarProveedoresActionPerformed
+
+    private void botInicioProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInicioProveedorActionPerformed
+        // TODO add your handling code here:
+        if (resultado != null) {
+            try {
+                resultado.first();
+                contador = resultado.getRow();
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("apellidos"));
+                this.jTextField7.setText(resultado.getString("direccion"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
+        }
+    }//GEN-LAST:event_botInicioProveedorActionPerformed
+
+    private void botFinalProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botFinalProveedorActionPerformed
+        // TODO add your handling code here:
+
+        if (resultado != null) {
+            try {
+                resultado.last();
+                contador = resultado.getRow();
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("apellidos"));
+                this.jTextField7.setText(resultado.getString("direccion"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
+        }
+
+    }//GEN-LAST:event_botFinalProveedorActionPerformed
+
+    private void botAtrasProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAtrasProveedorActionPerformed
+        boolean primero = false;
+        try {
+            primero = resultado.isFirst();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (primero) {
+            JOptionPane.showMessageDialog(null, "Ya estás en el primero");
+        } else {
+            try {
+
+                contador--;
+                resultado.absolute(contador);
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("apellidos"));
+                this.jTextField7.setText(resultado.getString("direccion"));
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_botAtrasProveedorActionPerformed
+
+    private void botAdelanteProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAdelanteProveedorActionPerformed
+        // TODO add your handling code here:
+        boolean ultimo = false;
+        try {
+            ultimo = resultado.isLast();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (ultimo) {
+            JOptionPane.showMessageDialog(null, "Ya estás en el último");
+        } else {
+            try {
+
+                contador++;
+                resultado.absolute(contador);
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("apellidos"));
+                this.jTextField7.setText(resultado.getString("direccion"));
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_botAdelanteProveedorActionPerformed
 
     /**
      * @param args the command line arguments

@@ -374,21 +374,33 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botInicioProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botAtrasProveedor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAtrasProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botAdelanteProveedor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAdelanteProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botFinalProveedor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botFinalProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botCargarProveedores">
               <Properties>
