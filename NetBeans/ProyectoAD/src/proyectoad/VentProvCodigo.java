@@ -23,16 +23,16 @@ public class VentProvCodigo extends javax.swing.JFrame {
     /**
      * Creates new form VentProvCodigo
      */
-        DatosConexionBD datosConexion = null;
+    DatosConexionBD datosConexion = null;
 
-    
     public VentProvCodigo() {
         initComponents();
         jComboBox1.removeAllItems();
-        
-         //De principio cargamos todos los proveedores
-      
-           //Boton de cargar proveedores
+        jLabel10.setText("");
+        jLabel11.setText("");
+        jLabel12.setText("");
+        jLabel13.setText("");
+
         datosConexion = new DatosConexionBD();
         try {
             Class.forName(datosConexion.getFOR_NAME());
@@ -46,23 +46,25 @@ public class VentProvCodigo extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
             Statement query = con.createStatement();
-            String sql = "SELECT * FROM proveedor ORDER BY codigo;";
+            //String sql = "SELECT * FROM proveedor where codigo ='" + jComboBox1.getSelectedItem().toString()+"'";
+            String sql = "SELECT * FROM proveedor ORDER BY codigo ";
             resultado = query.executeQuery(sql);
 
-            if (resultado.next()) {
-                System.out.println(resultado.getString(1));
-                System.out.println(resultado.getString(2));
+            while (resultado.next()) {
 
-             jComboBox1.addItem(resultado.getString(2));
-                
-               // contador = 1;
+                //System.out.println(resultado.getString(1));
 
+                   jComboBox1.addItem(resultado.getString(1));
+
+
+                // contador = 1;
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(GestionProveedores.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-      
+
     }
 
     /**
@@ -86,14 +88,33 @@ public class VentProvCodigo extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("ESCRIBE EL CODIGO O PARTE DE EL: ");
 
         jButton1.setText("Buscar Proveedor");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -107,6 +128,14 @@ public class VentProvCodigo extends javax.swing.JFrame {
         jLabel4.setText("APELLIDOS:");
 
         jLabel5.setText("DIRECCIÓN:");
+
+        jLabel10.setText("jLabel10");
+
+        jLabel11.setText("jLabel11");
+
+        jLabel12.setText("jLabel12");
+
+        jLabel13.setText("jLabel13");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,12 +159,20 @@ public class VentProvCodigo extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, 0, 306, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(72, Short.MAX_VALUE))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,19 +187,23 @@ public class VentProvCodigo extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel10))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel13))
                 .addContainerGap(130, Short.MAX_VALUE))
         );
 
@@ -170,16 +211,86 @@ public class VentProvCodigo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    private int contador = 0;
     ResultSet resultado = null;
-    
+
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-     
-      
-      
+
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+                // TODO add your handling code here:
+        //System.out.println("entro");
+        datosConexion = new DatosConexionBD();
+        if (jComboBox1.getSelectedItem() != null) {
+            try {
+                Class.forName(datosConexion.getFOR_NAME());
+
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+            }
+
+            try {
+
+                Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+                Statement query = con.createStatement();
+                //System.out.println(jComboBox1.getSelectedItem().toString());
+                String sql = "SELECT * FROM proveedor where codigo ='" + jComboBox1.getSelectedItem().toString()+"'";
+                ResultSet  resTemp = query.executeQuery(sql);
+                
+                if (resTemp.next()) {
+
+                //System.out.println(resTemp.getString(1));
+
+                jLabel10.setText(resTemp.getString(1));
+                jLabel11.setText(resTemp.getString(2));
+                jLabel12.setText(resTemp.getString(3));
+                jLabel13.setText(resTemp.getString(4));
+
+                // contador = 1;
+            }
+
+            }catch (SQLException e){
+                
+                JOptionPane.showMessageDialog(null, "Error en la conexión");
+            }}
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        datosConexion = new DatosConexionBD();
+        jComboBox1.removeAllItems();
+        try{
+            Class.forName(datosConexion.getFOR_NAME());
+        }catch(ClassNotFoundException e){
+            JOptionPane.showMessageDialog(null, "Recuerde insertar el driver");
+        }
+        
+        try {
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(),datosConexion.getUSERNAME(),datosConexion.getPASSWORD());
+            Statement query  = con.createStatement();
+            String sql = "SELECT codigo from proveedor where codigo LIKE '%"+jTextField1.getText()+"%'";
+            ResultSet result = query.executeQuery(sql);
+            
+            while (result.next()){
+                
+                jComboBox1.addItem(result.getString(1));
+            
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(VentProvCodigo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -204,16 +315,11 @@ public class VentProvCodigo extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        
-        
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentProvCodigo().setVisible(true);
-                
-                
-                
+
             }
         });
     }
@@ -222,6 +328,10 @@ public class VentProvCodigo extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
