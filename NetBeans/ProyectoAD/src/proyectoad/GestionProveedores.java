@@ -29,8 +29,7 @@ public class GestionProveedores extends javax.swing.JFrame {
 
     public GestionProveedores() {
         initComponents();
-        this.jLabelActualProveedor.setVisible(false);
-        this.jLabelFinalProveedor.setVisible(false);
+       
     }
 
     /**
@@ -72,8 +71,6 @@ public class GestionProveedores extends javax.swing.JFrame {
         botAdelanteProveedor = new javax.swing.JButton();
         botFinalProveedor = new javax.swing.JButton();
         botCargarProveedores = new javax.swing.JButton();
-        jLabelActualProveedor = new javax.swing.JLabel();
-        jLabelFinalProveedor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -321,12 +318,6 @@ public class GestionProveedores extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Listado de Proveedores", jPanel2);
 
-        jLabelActualProveedor.setText("jLabel1");
-        jLabelActualProveedor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), null));
-
-        jLabelFinalProveedor.setText("jLabel12");
-        jLabelFinalProveedor.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -335,23 +326,13 @@ public class GestionProveedores extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jTabbedPane2)
                 .addGap(43, 43, 43))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(434, 434, 434)
-                .addComponent(jLabelActualProveedor)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelFinalProveedor)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jTabbedPane2)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelActualProveedor)
-                    .addComponent(jLabelFinalProveedor))
-                .addGap(40, 40, 40))
+                .addGap(86, 86, 86))
         );
 
         pack();
@@ -742,8 +723,6 @@ public class GestionProveedores extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelActualProveedor;
-    private javax.swing.JLabel jLabelFinalProveedor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane2;

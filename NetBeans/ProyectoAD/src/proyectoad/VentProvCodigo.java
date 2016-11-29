@@ -5,6 +5,15 @@
  */
 package proyectoad;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -14,8 +23,46 @@ public class VentProvCodigo extends javax.swing.JFrame {
     /**
      * Creates new form VentProvCodigo
      */
+        DatosConexionBD datosConexion = null;
+
+    
     public VentProvCodigo() {
         initComponents();
+        jComboBox1.removeAllItems();
+        
+         //De principio cargamos todos los proveedores
+      
+           //Boton de cargar proveedores
+        datosConexion = new DatosConexionBD();
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+
+        try {
+
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+            Statement query = con.createStatement();
+            String sql = "SELECT * FROM proveedor ORDER BY codigo;";
+            resultado = query.executeQuery(sql);
+
+            if (resultado.next()) {
+                System.out.println(resultado.getString(1));
+                System.out.println(resultado.getString(2));
+
+             jComboBox1.addItem(resultado.getString(2));
+                
+               // contador = 1;
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+      
     }
 
     /**
@@ -47,6 +94,11 @@ public class VentProvCodigo extends javax.swing.JFrame {
         jButton1.setText("Buscar Proveedor");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("CODIGO:");
 
@@ -116,6 +168,14 @@ public class VentProvCodigo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+   private int contador = 0;
+    ResultSet resultado = null;
+    
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+     
+      
+      
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,10 +204,16 @@ public class VentProvCodigo extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentProvCodigo().setVisible(true);
+                
+                
+                
             }
         });
     }
