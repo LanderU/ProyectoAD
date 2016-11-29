@@ -5,6 +5,17 @@
  */
 package proyectoad;
 
+import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -14,6 +25,8 @@ public class GestionPiezas extends javax.swing.JFrame {
     /**
      * Creates new form GestionPiezas
      */
+    DatosConexionBD datosConexion = null;
+
     public GestionPiezas() {
         initComponents();
     }
@@ -57,8 +70,6 @@ public class GestionPiezas extends javax.swing.JFrame {
         botAdelantePieza = new javax.swing.JButton();
         botFinalPieza = new javax.swing.JButton();
         botCargarPieza = new javax.swing.JButton();
-        jLabelActualProveedor = new javax.swing.JLabel();
-        jLabelFinalProveedor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -179,12 +190,32 @@ public class GestionPiezas extends javax.swing.JFrame {
         jTextField8.setEditable(false);
 
         botInicioPieza.setText("<<");
+        botInicioPieza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botInicioPiezaActionPerformed(evt);
+            }
+        });
 
         botAtrasPieza.setText("<");
+        botAtrasPieza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAtrasPiezaActionPerformed(evt);
+            }
+        });
 
         botAdelantePieza.setText(">");
+        botAdelantePieza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAdelantePiezaActionPerformed(evt);
+            }
+        });
 
         botFinalPieza.setText(">>");
+        botFinalPieza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botFinalPiezaActionPerformed(evt);
+            }
+        });
 
         botCargarPieza.setText("CARGAR PIEZAS");
         botCargarPieza.addActionListener(new java.awt.event.ActionListener() {
@@ -286,12 +317,6 @@ public class GestionPiezas extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Listado de Piezas", jPanel2);
 
-        jLabelActualProveedor.setText("jLabel1");
-        jLabelActualProveedor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), null));
-
-        jLabelFinalProveedor.setText("jLabel12");
-        jLabelFinalProveedor.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -300,28 +325,19 @@ public class GestionPiezas extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jTabbedPane2)
                 .addGap(43, 43, 43))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(434, 434, 434)
-                .addComponent(jLabelActualProveedor)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelFinalProveedor)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jTabbedPane2)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelActualProveedor)
-                    .addComponent(jLabelFinalProveedor))
-                .addGap(40, 40, 40))
+                .addGap(86, 86, 86))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private int contador = 0;
+    ResultSet resultado = null;
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
@@ -336,11 +352,69 @@ public class GestionPiezas extends javax.swing.JFrame {
 
     private void botInsertarPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInsertarPiezaActionPerformed
 
-        //Boton de insertar nuevo proveedor
+        //Comprobar que los campos esten repletos
+        if (jTextField1.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el codigo de la pieza");
+        } else if (jTextField1.getText().length() > 6) {
+            JOptionPane.showMessageDialog(null, "El código no puede superar los 6 caracteres");
+        } else if (jTextField2.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el nombre de la pieza");
+        } else if (jTextField2.getText().length() > 20) {
+            JOptionPane.showMessageDialog(rootPane, "El nombre no puede superar los 20 caracteres");
+        } else if (jTextField3.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el precio de la pieza");
+        } else if (Float.parseFloat(jTextField3.getText()) < 0) {
+            JOptionPane.showMessageDialog(rootPane, "El campo precio tiene que ser un numero mayor que 0");
 
-        //Comprobar que los text fields necesarios esten repletos
+        } else if (jTextField4.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor introduce la descripción de la pieza");
+        } else if (jTextField4.getText().length() > 40) {
+            JOptionPane.showMessageDialog(rootPane, "El campo descripcion no puede superar los 40 caracteres");
+        } else {
+            //Llamar a la funcion que haga la insercion
 
-        //Llamar a la funcion que haga la insercion
+            datosConexion = new DatosConexionBD();
+
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+                //Llamar al procedimiento para insertar una pieza
+                String sql = "{call insertar_pieza(?,?,?,?)}";
+                CallableStatement insercion = con.prepareCall(sql);
+
+                // Añadimos los valores a la sentencia
+                insercion.setString(1, jTextField1.getText());
+                insercion.setString(2, jTextField2.getText());
+                insercion.setString(3, jTextField3.getText());
+                insercion.setString(4, jTextField4.getText());
+
+                int ok = insercion.executeUpdate();
+
+                if (ok != 0) {
+
+                    JOptionPane.showMessageDialog(null, "pieza añadida a la BD");
+                    insercion.close();
+                    con.close();
+                    jTextField1.setText("");
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al añadir la pieza a la BD");
+                    insercion.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir la pieza " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
 
     }//GEN-LAST:event_botInsertarPiezaActionPerformed
 
@@ -351,27 +425,223 @@ public class GestionPiezas extends javax.swing.JFrame {
     private void botEliminarPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEliminarPiezaActionPerformed
 
         //BOTON DE ELIMINAR
+        if (jTextField8.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "No hay ninguna pieza cargada, por favor dale al boton de cargar o inserta una pieza!!");
+        } else {
+            //Llamar a la funcion que haga el borrado
+            datosConexion = new DatosConexionBD();
 
-        //Mostrar ventana de seguro que......
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
-        //Llamar a la funcion de eliminar
+                //Llamar al procedimiento para insertar una pieza
+                String sql = "{call eliminar_pieza(?)}";
+                CallableStatement borrar = con.prepareCall(sql);
 
+                // Añadimos los valores a la sentencia
+                borrar.setString(1, jTextField8.getText());
+                int ok = borrar.executeUpdate();
+
+                if (ok != 0) {
+                    JOptionPane.showMessageDialog(null, "Pieza  borrada");
+                    borrar.close();
+                    con.close();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al eliminar la pieza de la BD");
+                    borrar.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir la pieza " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
+        //Cargar las piezas para refrescar
+        botCargarPieza.doClick();
     }//GEN-LAST:event_botEliminarPiezaActionPerformed
 
     private void botModificarPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botModificarPiezaActionPerformed
 
-        //Modificamos el Proveedor cargado
+    //BOTON DE modificar
+        if (jTextField8.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "No hay ninguna pieza cargada, por favor dale al boton de cargar o inserta una pieza!!");
+        } else {
+            //Llamar a la funcion que haga la modificacion
+            datosConexion = new DatosConexionBD();
 
-        //comprobamos que los campos necesarios estan repletos
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
-        //Llamamos a la funcion de modificar
+                //Llamar al procedimiento para modificar una pieza
+                String sql = "{call modificar_pieza(?,?,?,?)}";
+                CallableStatement modificar = con.prepareCall(sql);
+
+                // Añadimos los valores a la sentencia
+                modificar.setString(1, jTextField8.getText());
+                modificar.setString(2, jTextField5.getText());
+                modificar.setString(3, jTextField6.getText());
+                modificar.setString(4, jTextField7.getText());
+
+                int ok = modificar.executeUpdate();
+
+                if (ok != 0) {
+                    JOptionPane.showMessageDialog(null, "Pieza  modificada");
+                    modificar.close();
+                    con.close();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al modificar la Pieza de la BD");
+                    modificar.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible modificar la Pieza " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
+        //Cargar otra vez los proveedores
+        botCargarPieza.doClick();
+
     }//GEN-LAST:event_botModificarPiezaActionPerformed
 
     private void botCargarPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarPiezaActionPerformed
 
-        //Consulta para rellenar los campos
+        //Boton de cargar piezas
+        datosConexion = new DatosConexionBD();
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+
+        try {
+
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+            Statement query = con.createStatement();
+            String sql = "SELECT * FROM pieza ORDER BY codigo;";
+            resultado = query.executeQuery(sql);
+
+            if (resultado.next()) {
+                System.out.println(resultado.getString(1));
+                System.out.println(resultado.getString(2));
+
+                this.jTextField8.setText(resultado.getString(1));
+                this.jTextField5.setText(resultado.getString(2));
+                this.jTextField6.setText(resultado.getString(3));
+                this.jTextField7.setText(resultado.getString(4));
+                contador = 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_botCargarPiezaActionPerformed
+
+    private void botInicioPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInicioPiezaActionPerformed
+
+        // Ir a la primera posición
+        if (resultado != null) {
+            try {
+                resultado.first();
+                contador = resultado.getRow();
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("precio"));
+                this.jTextField7.setText(resultado.getString("descripcion"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
+        }
+
+    }//GEN-LAST:event_botInicioPiezaActionPerformed
+
+    private void botAtrasPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAtrasPiezaActionPerformed
+
+        //boton de retroceder uno atras
+        boolean primero = false;
+        try {
+            primero = resultado.isFirst();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (primero) {
+            JOptionPane.showMessageDialog(null, "Ya estás en el primero");
+        } else {
+            try {
+
+                contador--;
+                resultado.absolute(contador);
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("precio"));
+                this.jTextField7.setText(resultado.getString("descripcion"));
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_botAtrasPiezaActionPerformed
+
+    private void botAdelantePiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAdelantePiezaActionPerformed
+        // Boton de avanzar una posicion
+        boolean ultimo = false;
+        try {
+            ultimo = resultado.isLast();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (ultimo) {
+            JOptionPane.showMessageDialog(null, "Ya estás en el último");
+        } else {
+            try {
+
+                contador++;
+                resultado.absolute(contador);
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("precio"));
+                this.jTextField7.setText(resultado.getString("descripcion"));
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_botAdelantePiezaActionPerformed
+
+    private void botFinalPiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botFinalPiezaActionPerformed
+        // Boton de ir al final
+
+        if (resultado != null) {
+            try {
+                resultado.last();
+                contador = resultado.getRow();
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("precio"));
+                this.jTextField7.setText(resultado.getString("descripcion"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
+        }
+
+    }//GEN-LAST:event_botFinalPiezaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,8 +698,6 @@ public class GestionPiezas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelActualProveedor;
-    private javax.swing.JLabel jLabelFinalProveedor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane2;

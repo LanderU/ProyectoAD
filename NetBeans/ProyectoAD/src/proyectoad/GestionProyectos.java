@@ -5,6 +5,16 @@
  */
 package proyectoad;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -14,6 +24,10 @@ public class GestionProyectos extends javax.swing.JFrame {
     /**
      * Creates new form GestionProyectos
      */
+        DatosConexionBD datosConexion = null;
+
+    
+    
     public GestionProyectos() {
         initComponents();
     }
@@ -53,8 +67,6 @@ public class GestionProyectos extends javax.swing.JFrame {
         botAdelanteProyecto = new javax.swing.JButton();
         botFinalProyecto = new javax.swing.JButton();
         botCargarProyecto = new javax.swing.JButton();
-        jLabelActualProveedor = new javax.swing.JLabel();
-        jLabelFinalProveedor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -152,12 +164,32 @@ public class GestionProyectos extends javax.swing.JFrame {
         jTextField8.setEditable(false);
 
         botInicioProyecto.setText("<<");
+        botInicioProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botInicioProyectoActionPerformed(evt);
+            }
+        });
 
         botAtrasProyecto.setText("<");
+        botAtrasProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAtrasProyectoActionPerformed(evt);
+            }
+        });
 
         botAdelanteProyecto.setText(">");
+        botAdelanteProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAdelanteProyectoActionPerformed(evt);
+            }
+        });
 
         botFinalProyecto.setText(">>");
+        botFinalProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botFinalProyectoActionPerformed(evt);
+            }
+        });
 
         botCargarProyecto.setText("CARGAR PROYECTOS");
         botCargarProyecto.addActionListener(new java.awt.event.ActionListener() {
@@ -252,12 +284,6 @@ public class GestionProyectos extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Listado de Proyectos", jPanel2);
 
-        jLabelActualProveedor.setText("jLabel1");
-        jLabelActualProveedor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), null));
-
-        jLabelFinalProveedor.setText("jLabel12");
-        jLabelFinalProveedor.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,28 +292,19 @@ public class GestionProyectos extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jTabbedPane2)
                 .addGap(43, 43, 43))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(434, 434, 434)
-                .addComponent(jLabelActualProveedor)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelFinalProveedor)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jTabbedPane2)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelActualProveedor)
-                    .addComponent(jLabelFinalProveedor))
-                .addGap(40, 40, 40))
+                .addGap(86, 86, 86))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ private int contador = 0;
+    ResultSet resultado = null;
     private void botLimpiarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarProyectoActionPerformed
         // TODO add your handling code here:
         jTextField1.setText("");
@@ -298,38 +315,277 @@ public class GestionProyectos extends javax.swing.JFrame {
 
     private void botInsertarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInsertarProyectoActionPerformed
 
-        //Boton de insertar nuevo proveedor
-
+             //Boton de insertar nuevo proyecto
         //Comprobar que los text fields necesarios esten repletos
+        if (jTextField1.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el codigo de proyecto");
+        } else if (jTextField1.getText().length() > 6) {
+            JOptionPane.showMessageDialog(null, "El código no puede superar los 6 caracteres");
+        } else if (jTextField2.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce el nombre de proyecto");
+        } else if (jTextField2.getText().length() > 40) {
+            JOptionPane.showMessageDialog(rootPane, "El nombre no puede superar los 20 caracteres");
+        } else if (jTextField3.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduce la ciudad de proyecto");
+        } else if (jTextField3.getText().length() > 40) {
+            JOptionPane.showMessageDialog(rootPane, "El campo ciudad no puede superar los 30 caracteres");
+       
+        } else {
+            //Llamar a la funcion que haga la insercion
 
-        //Llamar a la funcion que haga la insercion
+            datosConexion = new DatosConexionBD();
+
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+                //Llamar al procedimiento para insertar un proyecto
+                String sql = "{call insertar_proyecto(?,?,?)}";
+                CallableStatement insercion = con.prepareCall(sql);
+
+                // Añadimos los valores a la sentencia
+                insercion.setString(1, jTextField1.getText());
+                insercion.setString(2, jTextField2.getText());
+                insercion.setString(3, jTextField3.getText());
+
+                int ok = insercion.executeUpdate();
+
+                if (ok != 0) {
+
+                    JOptionPane.showMessageDialog(null, "Proyecto añadido a la BD");
+                    insercion.close();
+                    con.close();
+                    jTextField1.setText("");
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al añadir el Proyecto a la BD");
+                    insercion.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir el Proyecto " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
 
     }//GEN-LAST:event_botInsertarProyectoActionPerformed
 
     private void botEliminarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEliminarProyectoActionPerformed
 
-        //BOTON DE ELIMINAR
+       //BOTON DE ELIMINAR
+        if (jTextField8.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun proyecto cargado, por favor dale al boton de cargar o inserta un proyecto!!");
+        } else {
+            //Llamar a la funcion que haga el borrado
+            datosConexion = new DatosConexionBD();
 
-        //Mostrar ventana de seguro que......
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+                
+                //Llamar al procedimiento para insertar un proveedor
+                String sql = "{call eliminar_proyecto(?)}";
+                CallableStatement borrar = con.prepareCall(sql);
+                
+                // Añadimos los valores a la sentencia
+                borrar.setString(1, jTextField8.getText());
+                int ok = borrar.executeUpdate();
+                
+                if (ok != 0) {
+                    JOptionPane.showMessageDialog(null, "proyecto  borrado");
+                    borrar.close();
+                    con.close();
 
-        //Llamar a la funcion de eliminar
+                } else {
 
+                    JOptionPane.showMessageDialog(null, "Error al eliminar al proyecto de la BD");
+                    borrar.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible añadir al proyecto " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
+            //Cargamos los proyectos para refrescar
+            botCargarProyecto.doClick();
     }//GEN-LAST:event_botEliminarProyectoActionPerformed
 
     private void botModificarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botModificarProyectoActionPerformed
 
-        //Modificamos el Proveedor cargado
+      //BOTON DE modificar
+        if (jTextField8.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun proyecto cargado, por favor dale al boton de cargar o inserta un proyecto!!");
+        } else {
+            //Llamar a la funcion que haga la modificacion
+            datosConexion = new DatosConexionBD();
 
-        //comprobamos que los campos necesarios estan repletos
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
-        //Llamamos a la funcion de modificar
+                //Llamar al procedimiento para modificar un proyecto
+                String sql = "{call modificar_proyecto(?,?,?)}";
+                CallableStatement modificar = con.prepareCall(sql);
+
+                // Añadimos los valores a la sentencia
+                modificar.setString(1, jTextField8.getText());
+                modificar.setString(2, jTextField5.getText());
+                modificar.setString(3, jTextField6.getText());
+
+                int ok = modificar.executeUpdate();
+
+                if (ok != 0) {
+                    JOptionPane.showMessageDialog(null, "proyecto  modificado");
+                    modificar.close();
+                    con.close();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al modificar al proyecto de la BD");
+                    modificar.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible modificar al proyecto " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
+        //Cargar otra vez los proveedores
+        botCargarProyecto.doClick();
+
     }//GEN-LAST:event_botModificarProyectoActionPerformed
 
     private void botCargarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarProyectoActionPerformed
 
-        //Consulta para rellenar los campos
+    
+            //Boton de cargar proyectos
+       datosConexion = new DatosConexionBD();
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+
+        try {
+
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+            Statement query = con.createStatement();
+            String sql = "SELECT * FROM proyecto ORDER BY codigo;";
+            resultado = query.executeQuery(sql);
+
+            if (resultado.next()) {
+                System.out.println(resultado.getString(1));
+                System.out.println(resultado.getString(2));
+
+                this.jTextField8.setText(resultado.getString(1));
+                this.jTextField5.setText(resultado.getString(2));
+                this.jTextField6.setText(resultado.getString(3));
+                contador = 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_botCargarProyectoActionPerformed
+
+    private void botInicioProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInicioProyectoActionPerformed
+     // Ir a la primera posición
+        if (resultado != null) {
+            try {
+                resultado.first();
+                contador = resultado.getRow();
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("ciudad"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
+        }
+            }//GEN-LAST:event_botInicioProyectoActionPerformed
+
+    private void botAtrasProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAtrasProyectoActionPerformed
+
+   //boton de retroceder uno atras
+        boolean primero = false;
+        try {
+            primero = resultado.isFirst();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (primero) {
+            JOptionPane.showMessageDialog(null, "Ya estás en el primero");
+        } else {
+            try {
+
+                contador--;
+                resultado.absolute(contador);
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("ciudad"));
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    }//GEN-LAST:event_botAtrasProyectoActionPerformed
+
+    private void botAdelanteProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAdelanteProyectoActionPerformed
+  // Boton de avanzar una posicion
+        boolean ultimo = false;
+        try {
+            ultimo = resultado.isLast();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (ultimo) {
+            JOptionPane.showMessageDialog(null, "Ya estás en el último");
+        } else {
+            try {
+
+                contador++;
+                resultado.absolute(contador);
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("ciudad"));
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    }//GEN-LAST:event_botAdelanteProyectoActionPerformed
+
+    private void botFinalProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botFinalProyectoActionPerformed
+          // Boton de ir al final
+
+        if (resultado != null) {
+            try {
+                resultado.last();
+                contador = resultado.getRow();
+                this.jTextField8.setText(resultado.getString("codigo"));
+                this.jTextField5.setText(resultado.getString("nombre"));
+                this.jTextField6.setText(resultado.getString("ciudad"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
+        }
+    }//GEN-LAST:event_botFinalProyectoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -384,8 +640,6 @@ public class GestionProyectos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelActualProveedor;
-    private javax.swing.JLabel jLabelFinalProveedor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane2;

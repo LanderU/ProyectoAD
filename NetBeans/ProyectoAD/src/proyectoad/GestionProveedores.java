@@ -25,8 +25,8 @@ public class GestionProveedores extends javax.swing.JFrame {
     /**
      * Creates new form GestionProveedores
      */
-    
     DatosConexionBD datosConexion = null;
+
     public GestionProveedores() {
         initComponents();
         this.jLabelActualProveedor.setVisible(false);
@@ -449,23 +449,102 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void botEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEliminarProveedorActionPerformed
 
         //BOTON DE ELIMINAR
-        //Mostrar ventana de seguro que......
-        //Llamar a la funcion de eliminar
+        if (jTextField8.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun proveedor cargado, por favor dale al boton de cargar o inserta un proveedor!!");
+        } else {
+            //Llamar a la funcion que haga el borrado
+            datosConexion = new DatosConexionBD();
+
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+                //Llamar al procedimiento para insertar un proveedor
+                String sql = "{call eliminar_proveedor(?)}";
+                CallableStatement borrar = con.prepareCall(sql);
+
+                // Añadimos los valores a la sentencia
+                borrar.setString(1, jTextField8.getText());
+                int ok = borrar.executeUpdate();
+
+                if (ok != 0) {
+                    JOptionPane.showMessageDialog(null, "Proveedor  borrado");
+                    borrar.close();
+                    con.close();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al eliminar al proveedor de la BD");
+                    borrar.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible eliminar al proveedor " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
+        //Cargar otra vez los proveedores
+        botCargarProveedores.doClick();
 
     }//GEN-LAST:event_botEliminarProveedorActionPerformed
 
     private void botModificarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botModificarProveedorActionPerformed
 
-        //Modificamos el Proveedor cargado
-        //comprobamos que los campos necesarios estan repletos
-        //Llamamos a la funcion de modificar
+        //BOTON DE modificar
+        if (jTextField8.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun proveedor cargado, por favor dale al boton de cargar o inserta un proveedor!!");
+        } else {
+            //Llamar a la funcion que haga la modificacion
+            datosConexion = new DatosConexionBD();
+
+            Connection con = null;
+            try {
+                //Abrimos la conexion
+                con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+                //Llamar al procedimiento para modificar un proveedor
+                String sql = "{call modificar_proveedor(?,?,?,?)}";
+                CallableStatement modificar = con.prepareCall(sql);
+
+                // Añadimos los valores a la sentencia
+                modificar.setString(1, jTextField8.getText());
+                modificar.setString(2, jTextField5.getText());
+                modificar.setString(3, jTextField6.getText());
+                modificar.setString(4, jTextField7.getText());
+
+                int ok = modificar.executeUpdate();
+
+                if (ok != 0) {
+                    JOptionPane.showMessageDialog(null, "Proveedor  modificado");
+                    modificar.close();
+                    con.close();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Error al modificar al proveedor de la BD");
+                    modificar.close();
+                    con.close();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Ha sido imposible modificar al proveedor " + e.getMessage());
+                System.out.println("Error->" + e.getMessage());
+            }
+
+        }
+        //Cargar otra vez los proveedores
+        botCargarProveedores.doClick();
+
 
     }//GEN-LAST:event_botModificarProveedorActionPerformed
 
     private void botCargarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarProveedoresActionPerformed
 
         //Boton de cargar proveedores
-       datosConexion = new DatosConexionBD();
+        datosConexion = new DatosConexionBD();
         try {
             Class.forName(datosConexion.getFOR_NAME());
 
@@ -490,14 +569,17 @@ public class GestionProveedores extends javax.swing.JFrame {
                 this.jTextField6.setText(resultado.getString(3));
                 this.jTextField7.setText(resultado.getString(4));
                 contador = 1;
+
             }
         } catch (SQLException ex) {
-            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GestionProveedores.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_botCargarProveedoresActionPerformed
 
     private void botInicioProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInicioProveedorActionPerformed
-        // TODO add your handling code here:
+
+        // Ir a la primera posición
         if (resultado != null) {
             try {
                 resultado.first();
@@ -506,8 +588,10 @@ public class GestionProveedores extends javax.swing.JFrame {
                 this.jTextField5.setText(resultado.getString("nombre"));
                 this.jTextField6.setText(resultado.getString("apellidos"));
                 this.jTextField7.setText(resultado.getString("direccion"));
+
             } catch (SQLException ex) {
-                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GestionProveedores.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
@@ -515,7 +599,7 @@ public class GestionProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_botInicioProveedorActionPerformed
 
     private void botFinalProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botFinalProveedorActionPerformed
-        // TODO add your handling code here:
+        // Boton de ir al final
 
         if (resultado != null) {
             try {
@@ -525,8 +609,10 @@ public class GestionProveedores extends javax.swing.JFrame {
                 this.jTextField5.setText(resultado.getString("nombre"));
                 this.jTextField6.setText(resultado.getString("apellidos"));
                 this.jTextField7.setText(resultado.getString("direccion"));
+
             } catch (SQLException ex) {
-                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GestionProveedores.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Cargue los datos para navegar entre ellos");
@@ -535,11 +621,15 @@ public class GestionProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_botFinalProveedorActionPerformed
 
     private void botAtrasProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAtrasProveedorActionPerformed
+
+        //boton de retroceder uno atras
         boolean primero = false;
         try {
             primero = resultado.isFirst();
+
         } catch (SQLException ex) {
-            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GestionProveedores.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         if (primero) {
             JOptionPane.showMessageDialog(null, "Ya estás en el primero");
@@ -554,18 +644,21 @@ public class GestionProveedores extends javax.swing.JFrame {
                 this.jTextField7.setText(resultado.getString("direccion"));
 
             } catch (SQLException ex) {
-                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GestionProveedores.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_botAtrasProveedorActionPerformed
 
     private void botAdelanteProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAdelanteProveedorActionPerformed
-        // TODO add your handling code here:
+        // Boton de avanzar una posicion
         boolean ultimo = false;
         try {
             ultimo = resultado.isLast();
+
         } catch (SQLException ex) {
-            Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GestionProveedores.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         if (ultimo) {
             JOptionPane.showMessageDialog(null, "Ya estás en el último");
@@ -580,7 +673,8 @@ public class GestionProveedores extends javax.swing.JFrame {
                 this.jTextField7.setText(resultado.getString("direccion"));
 
             } catch (SQLException ex) {
-                Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GestionProveedores.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_botAdelanteProveedorActionPerformed
@@ -599,16 +693,24 @@ public class GestionProveedores extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionProveedores.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionProveedores.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionProveedores.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionProveedores.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
