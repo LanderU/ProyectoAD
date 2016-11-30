@@ -60,7 +60,9 @@ public class VentPiezaPrecio extends javax.swing.JFrame {
                 jComboBox1.addItem(resultado.getString(3));
 
             }
-
+            resultado.close();
+            con.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(GestionProveedores.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -190,7 +192,7 @@ public class VentPiezaPrecio extends javax.swing.JFrame {
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
 
-       //Click en un elemento del combobox
+        //Click en un elemento del combobox
         datosConexion = new DatosConexionBD();
         if (jComboBox1.getSelectedItem() != null) {
             try {
@@ -218,6 +220,8 @@ public class VentPiezaPrecio extends javax.swing.JFrame {
 
                 }
 
+                resTemp.close();
+                con.close();
             } catch (SQLException e) {
 
                 JOptionPane.showMessageDialog(null, "Error en la conexión");
@@ -227,7 +231,7 @@ public class VentPiezaPrecio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-    //Boton de buscar pieza
+        //Boton de buscar pieza
         datosConexion = new DatosConexionBD();
         jComboBox1.removeAllItems();
         try {
@@ -239,14 +243,23 @@ public class VentPiezaPrecio extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
             Statement query = con.createStatement();
-            String sql = "SELECT precio from pieza where precio LIKE '%" + jTextField1.getText() + "%'";
-            ResultSet result = query.executeQuery(sql);
+            float num = 0;
+            try {
+                num = Float.parseFloat(jTextField1.getText());
+                String numero = jTextField1.getText();
+                String sql = "SELECT precio from pieza where convert(precio, char(10)) LIKE '%" + numero + "%'";
+                ResultSet result = query.executeQuery(sql);
 
-            while (result.next()) {
-               // float num = Float.parseFloat();
+                while (result.next()) {
+                    jComboBox1.addItem(String.valueOf(result.getFloat(1)));
+
+                }
                 
-                jComboBox1.addItem(Float.toString(result.getFloat(3)));
+                result.close();
+                con.close();
                 
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Tiene que ser un número");
             }
 
         } catch (SQLException ex) {
