@@ -5,6 +5,15 @@
  */
 package proyectoad;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -14,8 +23,50 @@ public class VentProyCodigo extends javax.swing.JFrame {
     /**
      * Creates new form VentProyCodigo
      */
+    DatosConexionBD datosConexion = null;
+    private int contador = 0;
+    ResultSet resultado = null;
+
     public VentProyCodigo() {
         initComponents();
+
+        //Borramos contenidos de labels y combobox
+        jComboBox2.removeAllItems();
+        jLabel10.setText("");
+        jLabel11.setText("");
+        jLabel12.setText("");
+
+        //creamos una conexion
+        datosConexion = new DatosConexionBD();
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+
+        try {
+
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+            Statement query = con.createStatement();
+            String sql = "SELECT * FROM proyecto ORDER BY codigo ";
+            resultado = query.executeQuery(sql);
+
+            while (resultado.next()) {
+
+                jComboBox2.addItem(resultado.getString(1));
+
+            }
+
+            resultado.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -42,6 +93,9 @@ public class VentProyCodigo extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         jLabel1.setText("ESCRIBE EL CODIGO O PARTE DE EL: ");
 
@@ -62,14 +116,30 @@ public class VentProyCodigo extends javax.swing.JFrame {
         jLabel6.setText("ESCRIBE EL CODIGO DEL PROYECTO O PARTE DE EL: ");
 
         jButton2.setText("Buscar Pieza");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
 
         jLabel7.setText("CODIGO:");
 
         jLabel8.setText("NOMBRE:");
 
         jLabel9.setText("CIUDAD:");
+
+        jLabel10.setText("jLabel10");
+
+        jLabel11.setText("jLabel11");
+
+        jLabel12.setText("jLabel12");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,7 +161,14 @@ public class VentProyCodigo extends javax.swing.JFrame {
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(25, 25, 25)
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(57, 57, 57))
         );
         layout.setVerticalGroup(
@@ -105,16 +182,91 @@ public class VentProyCodigo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(jLabel7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel12))
                 .addContainerGap(218, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+
+        //Click en un elemento del combobox
+        datosConexion = new DatosConexionBD();
+        if (jComboBox2.getSelectedItem() != null) {
+            try {
+                Class.forName(datosConexion.getFOR_NAME());
+
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+            }
+
+            try {
+
+                Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+                Statement query = con.createStatement();
+                String sql = "SELECT * FROM proyecto where codigo ='" + jComboBox2.getSelectedItem().toString() + "'";
+                ResultSet resTemp = query.executeQuery(sql);
+
+                if (resTemp.next()) {
+
+                    jLabel10.setText(resTemp.getString(1));
+                    jLabel11.setText(resTemp.getString(2));
+                    jLabel12.setText(resTemp.getString(3));
+
+                }
+
+                resTemp.close();
+                con.close();
+
+            } catch (SQLException e) {
+
+                JOptionPane.showMessageDialog(null, "Error en la conexión");
+            }
+        }
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        //Boton de buscar proyecto
+        datosConexion = new DatosConexionBD();
+        jComboBox2.removeAllItems();
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Recuerde insertar el driver");
+        }
+
+        try {
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+            Statement query = con.createStatement();
+            String sql = "SELECT codigo from proyecto where codigo LIKE '%" + jTextField1.getText() + "%'";
+            ResultSet result = query.executeQuery(sql);
+
+            while (result.next()) {
+
+                jComboBox2.addItem(result.getString(1));
+
+            }
+
+            result.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VentProvCodigo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,6 +309,9 @@ public class VentProyCodigo extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

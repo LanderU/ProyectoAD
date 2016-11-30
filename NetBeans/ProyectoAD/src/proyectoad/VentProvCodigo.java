@@ -27,12 +27,14 @@ public class VentProvCodigo extends javax.swing.JFrame {
 
     public VentProvCodigo() {
         initComponents();
+        //Borramos contenidos de labels y combobox
         jComboBox1.removeAllItems();
         jLabel10.setText("");
         jLabel11.setText("");
         jLabel12.setText("");
         jLabel13.setText("");
 
+        //creamos una conexion
         datosConexion = new DatosConexionBD();
         try {
             Class.forName(datosConexion.getFOR_NAME());
@@ -46,20 +48,16 @@ public class VentProvCodigo extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
             Statement query = con.createStatement();
-            //String sql = "SELECT * FROM proveedor where codigo ='" + jComboBox1.getSelectedItem().toString()+"'";
             String sql = "SELECT * FROM proveedor ORDER BY codigo ";
             resultado = query.executeQuery(sql);
 
             while (resultado.next()) {
 
-                //System.out.println(resultado.getString(1));
+                jComboBox1.addItem(resultado.getString(1));
 
-                   jComboBox1.addItem(resultado.getString(1));
-
-
-                // contador = 1;
             }
-
+            resultado.close();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(GestionProveedores.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -222,9 +220,8 @@ public class VentProvCodigo extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        // TODO add your handling code here:
-                // TODO add your handling code here:
-        //System.out.println("entro");
+
+        //Click en un elemento del combobox
         datosConexion = new DatosConexionBD();
         if (jComboBox1.getSelectedItem() != null) {
             try {
@@ -239,58 +236,58 @@ public class VentProvCodigo extends javax.swing.JFrame {
                 Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
                 Statement query = con.createStatement();
-                //System.out.println(jComboBox1.getSelectedItem().toString());
-                String sql = "SELECT * FROM proveedor where codigo ='" + jComboBox1.getSelectedItem().toString()+"'";
-                ResultSet  resTemp = query.executeQuery(sql);
-                
+                String sql = "SELECT * FROM proveedor where codigo ='" + jComboBox1.getSelectedItem().toString() + "'";
+                ResultSet resTemp = query.executeQuery(sql);
+
                 if (resTemp.next()) {
 
-                //System.out.println(resTemp.getString(1));
+                    jLabel10.setText(resTemp.getString(1));
+                    jLabel11.setText(resTemp.getString(2));
+                    jLabel12.setText(resTemp.getString(3));
+                    jLabel13.setText(resTemp.getString(4));
 
-                jLabel10.setText(resTemp.getString(1));
-                jLabel11.setText(resTemp.getString(2));
-                jLabel12.setText(resTemp.getString(3));
-                jLabel13.setText(resTemp.getString(4));
+                }
+                resTemp.close();
+                con.close();
+            } catch (SQLException e) {
 
-                // contador = 1;
-            }
-
-            }catch (SQLException e){
-                
                 JOptionPane.showMessageDialog(null, "Error en la conexión");
-            }}
+            }
+        }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+        //Boton de buscar proveedor
         datosConexion = new DatosConexionBD();
         jComboBox1.removeAllItems();
-        try{
+        try {
             Class.forName(datosConexion.getFOR_NAME());
-        }catch(ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Recuerde insertar el driver");
         }
-        
+
         try {
-            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(),datosConexion.getUSERNAME(),datosConexion.getPASSWORD());
-            Statement query  = con.createStatement();
-            String sql = "SELECT codigo from proveedor where codigo LIKE '%"+jTextField1.getText()+"%'";
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+            Statement query = con.createStatement();
+            String sql = "SELECT codigo from proveedor where codigo LIKE '%" + jTextField1.getText() + "%'";
             ResultSet result = query.executeQuery(sql);
-            
-            while (result.next()){
-                
+
+            while (result.next()) {
+
                 jComboBox1.addItem(result.getString(1));
-            
+
             }
-            
+            result.close();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(VentProvCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-         * @param args the command line arguments
-         */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
