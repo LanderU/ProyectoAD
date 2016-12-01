@@ -5,6 +5,7 @@
  */
 package proyectoad;
 
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -146,6 +148,12 @@ public class VentanaInicio extends javax.swing.JFrame {
             this.jMenu8.setEnabled(false);
             this.jMenu9.setEnabled(false);
         }
+
+        setBounds(100, 100, 650, 400);
+        PanelImagen p = new PanelImagen();
+        p.setBorder(new EmptyBorder(5, 5, 5, 5));
+        p.setLayout(new BorderLayout(0, 0));
+        setContentPane(p);
 
     }
 
@@ -572,31 +580,31 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-      
+
         VentGestionGlobal1 v1 = new VentGestionGlobal1();
         v1.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
 
         VentGestionGlobal2 v2 = new VentGestionGlobal2();
         v2.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
 
-           VentGestionGlobal3 v3 = new VentGestionGlobal3();
-           v3.setVisible(true);
-           
+        VentGestionGlobal3 v3 = new VentGestionGlobal3();
+        v3.setVisible(true);
+
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
 
         VentGestionGlobal4 v4 = new VentGestionGlobal4();
         v4.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     /**
