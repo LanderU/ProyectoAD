@@ -7,6 +7,7 @@ package proyectoad;
 
 import java.awt.Desktop;
 import java.net.URI;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +34,7 @@ public class VentAcercaDe extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -41,12 +43,14 @@ public class VentAcercaDe extends javax.swing.JFrame {
 
         jLabel2.setText("Los desarolladores: Lander Usategui y Alberto Nieto.");
 
-        jButton1.setText("Ir a GitHub");
+        jButton1.setText("Seguir el proyecto en  GitHub.com");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jLabel3.setText("Para más informacion sigue el enlace...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,8 +65,10 @@ public class VentAcercaDe extends javax.swing.JFrame {
                         .addGap(175, 175, 175)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(289, 289, 289)
-                        .addComponent(jButton1)))
+                        .addGap(208, 208, 208)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel3))))
                 .addContainerGap(224, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -72,9 +78,11 @@ public class VentAcercaDe extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(jLabel2)
-                .addGap(57, 57, 57)
-                .addComponent(jButton1)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addGap(61, 61, 61)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         pack();
@@ -91,7 +99,7 @@ public class VentAcercaDe extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "No se puede acceder al navegador...");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -134,5 +142,6 @@ public class VentAcercaDe extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
