@@ -32,6 +32,7 @@ public class VentanaInicio extends javax.swing.JFrame {
      * Creates new form VentanaInicio
      */
     public static void crearDataBase() {
+        
         DatosConexionBD datosConexion = new DatosConexionBD();
         BufferedReader input = null;
         try {

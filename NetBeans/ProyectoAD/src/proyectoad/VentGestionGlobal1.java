@@ -5,6 +5,13 @@
  */
 package proyectoad;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
@@ -14,8 +21,39 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
     /**
      * Creates new form VentGestionGlobal1
      */
+    // Variables globales
+    DatosConexionBD datosCon = new DatosConexionBD();
+    Statement query = null;
+    Connection con = null;
+    ResultSet resul = null;
+    String sql = "";
+
     public VentGestionGlobal1() {
+
         initComponents();
+        // Clear
+        jComboBox1.removeAllItems();
+        jComboBox2.removeAllItems();
+        jComboBox3.removeAllItems();
+        try {
+            Class.forName(datosCon.getFOR_NAME());
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            sql = "Select codigo from proveedor";
+            resul = query.executeQuery(sql);
+
+            while (resul.next()) {
+                jComboBox1.addItem(resul.getString("codigo"));
+            }
+            resul.close();
+            query.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Introduzca el driver");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la Base de datos");
+        }
+
     }
 
     /**
@@ -66,8 +104,23 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
         jLabel5.setText("Cantidad:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -147,6 +200,44 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // Acción cuando seleccionamos un código de proveedor
+        // Mostramos los datos en el text
+        try {
+            Class.forName(datosCon.getFOR_NAME());
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            if (jComboBox1.getSelectedItem() != null) {
+                sql = "Select * from proveedor where codigo = "+jComboBox1.getSelectedItem().toString();
+                System.out.println();
+                //resul = query.executeQuery(sql);
+
+                //if (resul.next()) {
+
+                //    jTextField1.setText(resul.getString("nombre") + " " + resul.getString("apellidos") + " " + resul.getString("direccion"));
+
+                //}
+                //resul.close();
+                //query.close();
+                //con.close();
+            }
+
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Introduzca el driver");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la Base de datos");
+        }
+
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1MouseClicked
 
     /**
      * @param args the command line arguments

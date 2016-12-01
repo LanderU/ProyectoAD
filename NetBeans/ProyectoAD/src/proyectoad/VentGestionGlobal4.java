@@ -15,6 +15,7 @@ public class VentGestionGlobal4 extends javax.swing.JFrame {
      * Creates new form VentGestionGlobal4
      */
     public VentGestionGlobal4() {
+        
         initComponents();
     }
 

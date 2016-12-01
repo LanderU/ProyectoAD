@@ -28,6 +28,7 @@ public class GestionPiezas extends javax.swing.JFrame {
     DatosConexionBD datosConexion = null;
 
     public GestionPiezas() {
+        
         initComponents();
     }
 
