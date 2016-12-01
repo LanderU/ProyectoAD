@@ -28,6 +28,7 @@ public class VentProvDireccion extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     public VentProvDireccion() {
+        
         initComponents();
 
         jComboBox1.removeAllItems();
