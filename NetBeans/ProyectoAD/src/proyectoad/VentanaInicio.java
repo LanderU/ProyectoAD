@@ -32,14 +32,18 @@ public class VentanaInicio extends javax.swing.JFrame {
      * Creates new form VentanaInicio
      */
     public static void crearDataBase() {
-        
+
         DatosConexionBD datosConexion = new DatosConexionBD();
         BufferedReader input = null;
+
+        //Cargamos el scrip para crear la BD
         try {
             input = new BufferedReader(new FileReader(new File("createTables.sql")));
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "El script de creación no existe");
         }
+
+        //Se crea un string builder para cargar todo el script con sus saltos de linea
         String linea = null;
         StringBuilder crearSentencia = new StringBuilder();
         String salto = System.getProperty("line.separator");
@@ -53,32 +57,34 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
 
         String sql = crearSentencia.toString();
-        //Debug
-        //System.out.println(sql);
 
         try {
             Class.forName(datosConexion.getFOR_NAME());
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Inserte el driver MySQL");
         }
+
+        //creamos la conexion
         Connection con = null;
         try {
             con = DriverManager.getConnection(datosConexion.getCONNECTION(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
             Statement sentencia = con.createStatement();
-            //System.out.println(sql);
 
+            //Ejecutamos la sentencia con el sript de creación
             int ok = sentencia.executeUpdate(sql);
-            System.out.println(sql);
 
+            //Comprobamos que se haya creado la BD
             if (ok != 0) {
 
                 JOptionPane.showMessageDialog(null, "Base De datos creada");
+                sentencia.close();
                 con.close();
 
             } else {
 
                 JOptionPane.showMessageDialog(null, "Error al crear la BD");
-
+                sentencia.close();
+                con.close();
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Imposible realizar la conexión con la BD");
@@ -88,8 +94,12 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// end crearDatabase
 
     public boolean checkDataBase() {
+
+        //Comprobamos si la base de datos está creada
         boolean flag = false;
         try {
+
+            //Creamos una conexion
             DatosConexionBD datosCon = new DatosConexionBD();
             try {
                 Class.forName(datosCon.getFOR_NAME());
@@ -126,8 +136,11 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// end checkDataBase
 
     public VentanaInicio() {
+
+        //Arranque de la ventana
         initComponents();
 
+        //Comprobamos si la BD está creada para Habilitar o no, los botones/pestañas correspondientes
         if (checkDataBase()) {
             this.jMenuItem1.setEnabled(false);
             this.jMenu2.setEnabled(true);
@@ -150,6 +163,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             this.jMenu9.setEnabled(false);
         }
 
+        //Cargamos la imagen de fondo
         setBounds(100, 100, 650, 400);
         PanelImagen p = new PanelImagen();
         p.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -432,8 +446,8 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        //Consulta de proveedores por direccion
 
+        //Consulta de proveedores por direccion
         VentProvDireccion vpd = new VentProvDireccion();
         vpd.setVisible(true);
 
@@ -449,8 +463,8 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        //Consulta de piezas por nombre
 
+        //Consulta de piezas por nombre
         VentPiezaNombre vpin = new VentPiezaNombre();
         vpin.setVisible(true);
 
@@ -474,16 +488,16 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-        // Consulta de proyectos por nombre
 
+        // Consulta de proyectos por nombre
         VentProyNombre vpnom = new VentProyNombre();
         vpnom.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        // Ventana de gestion de piezas
 
+        // Ventana de gestion de piezas
         GestionPiezas gp = new GestionPiezas();
         gp.setVisible(true);
 
@@ -491,8 +505,8 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        // Llamar a ventana de gestion de proyectos
 
+        // Llamar a ventana de gestion de proyectos
         GestionProyectos gProy = new GestionProyectos();
         gProy.setVisible(true);
 
@@ -500,8 +514,8 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-        // Llamar a la ventana de Acerca de los desarrolladores
 
+        // Llamar a la ventana de Acerca de los desarrolladores
         VentAcercaDe vac = new VentAcercaDe();
         vac.setVisible(true);
 
@@ -509,12 +523,15 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+
+        //Boton de crear BD
+        //Llamamos al metodo de crear la BD
         crearDataBase();
+        //Desabilitamos el boton de crear BD y Habilitamos el de eliminar BD
         this.jMenuItem1.setEnabled(false);
         this.jMenuItem2.setEnabled(true);
 
-        //Habilitar todos los botones cuando se crea la bd
+        //Habilitar todos los demás botones cuando se crea la bd
         this.jMenu2.setEnabled(true);
         this.jMenu3.setEnabled(true);
         this.jMenu4.setEnabled(true);
@@ -528,15 +545,9 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
         // Boton de Salir
-
-        System.exit(0);
-
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        //Boton de eliminar base de datos
-
+        //Creamos una conexión para hacer un commit y asegurarnos de que no se pierde nada de lo ejecutado
         DatosConexionBD datosConexion = new DatosConexionBD();
 
         Connection con = null;
@@ -544,10 +555,54 @@ public class VentanaInicio extends javax.swing.JFrame {
             con = DriverManager.getConnection(datosConexion.getCONNECTION(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
             Statement sentencia = con.createStatement();
 
+            //Creamos la sentencia que hace commit a la BD y la ejecutamos
+            String sql = "commit;";
+            boolean ok1 = sentencia.execute(sql);
+            System.out.println(sql);
+
+            //Comprobamos la ejecución de la sentencia
+            if (ok1) {
+
+                System.out.println("Información guardada antes de cerrar el programa...");
+                con.close();
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Error al guardar la información en la BD");
+                con.close();
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Ha sido imposible guardar la BD");
+        }
+
+        //Pedimos confirmación para salir del programa
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Realmente deseas Salir?");
+
+        if (confirm == 0) {
+            System.exit(0);
+        }
+
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+
+        //Boton de eliminar base de datos
+        //Creamos la conexión
+        DatosConexionBD datosConexion = new DatosConexionBD();
+
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(datosConexion.getCONNECTION(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+            Statement sentencia = con.createStatement();
+
+            //Creamos la sentencia que borra la BD y la ejecutamos
             String sql = "drop schema proyectoAd;";
             int ok = sentencia.executeUpdate(sql);
             System.out.println(sql);
 
+            //Comprobamos la ejecución de la sentencia
             if (ok != 0) {
 
                 JOptionPane.showMessageDialog(null, "Base De datos Borrada");
@@ -582,6 +637,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
 
+        //Ventana de gestionGlobal (Piezas, proveedores y proyectos).
         VentGestionGlobal1 v1 = new VentGestionGlobal1();
         v1.setVisible(true);
 
@@ -589,6 +645,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
 
+        //Ventana de gestionGlobal (Suministros por proveedor).
         VentGestionGlobal2 v2 = new VentGestionGlobal2();
         v2.setVisible(true);
 
@@ -596,6 +653,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
 
+        //Ventana de gestionGlobal (Suministros por piezas).
         VentGestionGlobal3 v3 = new VentGestionGlobal3();
         v3.setVisible(true);
 
@@ -603,6 +661,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
 
+        //Ventana de gestionGlobal (Estadisticas).
         VentGestionGlobal4 v4 = new VentGestionGlobal4();
         v4.setVisible(true);
 
