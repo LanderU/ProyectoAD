@@ -28,6 +28,7 @@ public class GestionProveedores extends javax.swing.JFrame {
     DatosConexionBD datosConexion = null;
 
     public GestionProveedores() {
+        
         initComponents();
        
     }
