@@ -24,12 +24,9 @@ public class GestionProyectos extends javax.swing.JFrame {
     /**
      * Creates new form GestionProyectos
      */
-        DatosConexionBD datosConexion = null;
+    DatosConexionBD datosConexion = null;
 
-    
-    
     public GestionProyectos() {
-        
         initComponents();
     }
 
@@ -307,16 +304,16 @@ public class GestionProyectos extends javax.swing.JFrame {
  private int contador = 0;
     ResultSet resultado = null;
     private void botLimpiarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarProyectoActionPerformed
-        // TODO add your handling code here:
+        //Vaciamos los textFields
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
-       
+
     }//GEN-LAST:event_botLimpiarProyectoActionPerformed
 
     private void botInsertarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInsertarProyectoActionPerformed
 
-             //Boton de insertar nuevo proyecto
+        //Boton de insertar nuevo proyecto
         //Comprobar que los text fields necesarios esten repletos
         if (jTextField1.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduce el codigo de proyecto");
@@ -330,10 +327,10 @@ public class GestionProyectos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduce la ciudad de proyecto");
         } else if (jTextField3.getText().length() > 40) {
             JOptionPane.showMessageDialog(rootPane, "El campo ciudad no puede superar los 30 caracteres");
-       
-        } else {
-            //Llamar a la funcion que haga la insercion
 
+        } else {
+
+            //Llamar a la funcion que haga la insercion
             datosConexion = new DatosConexionBD();
 
             Connection con = null;
@@ -352,6 +349,7 @@ public class GestionProyectos extends javax.swing.JFrame {
 
                 int ok = insercion.executeUpdate();
 
+                //Comprobamos que se ejecute la inserción
                 if (ok != 0) {
 
                     JOptionPane.showMessageDialog(null, "Proyecto añadido a la BD");
@@ -379,7 +377,8 @@ public class GestionProyectos extends javax.swing.JFrame {
 
     private void botEliminarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEliminarProyectoActionPerformed
 
-       //BOTON DE ELIMINAR
+        //BOTON DE ELIMINAR
+        //Comprobamos que haya un proyecto cargado
         if (jTextField8.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "No hay ningun proyecto cargado, por favor dale al boton de cargar o inserta un proyecto!!");
         } else {
@@ -390,15 +389,16 @@ public class GestionProyectos extends javax.swing.JFrame {
             try {
                 //Abrimos la conexion
                 con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-                
-                //Llamar al procedimiento para insertar un proveedor
+
+                //Llamar al procedimiento para eliminar un proyecto
                 String sql = "{call eliminar_proyecto(?)}";
                 CallableStatement borrar = con.prepareCall(sql);
-                
+
                 // Añadimos los valores a la sentencia
                 borrar.setString(1, jTextField8.getText());
                 int ok = borrar.executeUpdate();
-                
+
+                //Comprobamos que se ejecute el borrado
                 if (ok != 0) {
                     JOptionPane.showMessageDialog(null, "proyecto  borrado");
                     borrar.close();
@@ -417,13 +417,14 @@ public class GestionProyectos extends javax.swing.JFrame {
             }
 
         }
-            //Cargamos los proyectos para refrescar
-            botCargarProyecto.doClick();
+        //Cargamos los proyectos para refrescar
+        botCargarProyecto.doClick();
     }//GEN-LAST:event_botEliminarProyectoActionPerformed
 
     private void botModificarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botModificarProyectoActionPerformed
 
-      //BOTON DE modificar
+        //BOTON DE modificar
+        //Comprobamos que haya un proyecto cargado
         if (jTextField8.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "No hay ningun proyecto cargado, por favor dale al boton de cargar o inserta un proyecto!!");
         } else {
@@ -444,6 +445,7 @@ public class GestionProyectos extends javax.swing.JFrame {
                 modificar.setString(2, jTextField5.getText());
                 modificar.setString(3, jTextField6.getText());
 
+                //Comprobamos que se ejecute la modificación
                 int ok = modificar.executeUpdate();
 
                 if (ok != 0) {
@@ -471,9 +473,8 @@ public class GestionProyectos extends javax.swing.JFrame {
 
     private void botCargarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botCargarProyectoActionPerformed
 
-    
-            //Boton de cargar proyectos
-       datosConexion = new DatosConexionBD();
+        //Boton de cargar proyectos
+        datosConexion = new DatosConexionBD();
         try {
             Class.forName(datosConexion.getFOR_NAME());
 
@@ -483,12 +484,14 @@ public class GestionProyectos extends javax.swing.JFrame {
 
         try {
 
+            //se crea la conexión 
             Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
 
             Statement query = con.createStatement();
             String sql = "SELECT * FROM proyecto ORDER BY codigo;";
             resultado = query.executeQuery(sql);
 
+            //Rellenamos los textFields con los valores recogidos de la sentencia
             if (resultado.next()) {
                 System.out.println(resultado.getString(1));
                 System.out.println(resultado.getString(2));
@@ -496,7 +499,6 @@ public class GestionProyectos extends javax.swing.JFrame {
                 this.jTextField8.setText(resultado.getString(1));
                 this.jTextField5.setText(resultado.getString(2));
                 this.jTextField6.setText(resultado.getString(3));
-                contador = 1;
             }
         } catch (SQLException ex) {
             Logger.getLogger(GestionProveedores.class.getName()).log(Level.SEVERE, null, ex);
@@ -505,7 +507,7 @@ public class GestionProyectos extends javax.swing.JFrame {
     }//GEN-LAST:event_botCargarProyectoActionPerformed
 
     private void botInicioProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botInicioProyectoActionPerformed
-     // Ir a la primera posición
+        // Ir a la primera posición
         if (resultado != null) {
             try {
                 resultado.first();
@@ -523,7 +525,7 @@ public class GestionProyectos extends javax.swing.JFrame {
 
     private void botAtrasProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAtrasProyectoActionPerformed
 
-   //boton de retroceder uno atras
+        //boton de retroceder uno atras
         boolean primero = false;
         try {
             primero = resultado.isFirst();
@@ -547,7 +549,7 @@ public class GestionProyectos extends javax.swing.JFrame {
         }    }//GEN-LAST:event_botAtrasProyectoActionPerformed
 
     private void botAdelanteProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAdelanteProyectoActionPerformed
-  // Boton de avanzar una posicion
+        // Boton de avanzar una posicion
         boolean ultimo = false;
         try {
             ultimo = resultado.isLast();
@@ -571,7 +573,7 @@ public class GestionProyectos extends javax.swing.JFrame {
         }    }//GEN-LAST:event_botAdelanteProyectoActionPerformed
 
     private void botFinalProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botFinalProyectoActionPerformed
-          // Boton de ir al final
+        // Boton de ir al final
 
         if (resultado != null) {
             try {

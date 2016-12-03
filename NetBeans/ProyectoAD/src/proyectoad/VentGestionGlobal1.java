@@ -10,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,7 +35,10 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
         jComboBox1.removeAllItems();
         jComboBox2.removeAllItems();
         jComboBox3.removeAllItems();
+<<<<<<< HEAD
         /*
+=======
+>>>>>>> a53e75a95399a86cc4020931b9ef2a90e3dc0720
         try {
             Class.forName(datosCon.getFOR_NAME());
             con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
@@ -55,9 +56,14 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Introduzca el driver");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la Base de datos");
+<<<<<<< HEAD
             System.out.println(ex.getMessage().toString());
         }
          */
+=======
+        }
+
+>>>>>>> a53e75a95399a86cc4020931b9ef2a90e3dc0720
     }
 
     /**
@@ -206,6 +212,7 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+<<<<<<< HEAD
         
         try {
             // Rellenamos el otro combo con los datos de las piezas asociadas
@@ -245,11 +252,15 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
             }
 
         }
+=======
+        // TODO add your handling code here:
+>>>>>>> a53e75a95399a86cc4020931b9ef2a90e3dc0720
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // Acción cuando seleccionamos un código de proveedor
         // Mostramos los datos en el text
+<<<<<<< HEAD
         if (jComboBox1.getItemCount() == 0) {
             try {
                 Class.forName(datosCon.getFOR_NAME());
@@ -308,6 +319,33 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
             }
 
         }
+=======
+        try {
+            Class.forName(datosCon.getFOR_NAME());
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            if (jComboBox1.getSelectedItem() != null) {
+                sql = "Select * from proveedor where codigo = "+jComboBox1.getSelectedItem().toString();
+                System.out.println();
+                //resul = query.executeQuery(sql);
+
+                //if (resul.next()) {
+
+                //    jTextField1.setText(resul.getString("nombre") + " " + resul.getString("apellidos") + " " + resul.getString("direccion"));
+
+                //}
+                //resul.close();
+                //query.close();
+                //con.close();
+            }
+
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Introduzca el driver");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la Base de datos");
+        }
+
+>>>>>>> a53e75a95399a86cc4020931b9ef2a90e3dc0720
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
