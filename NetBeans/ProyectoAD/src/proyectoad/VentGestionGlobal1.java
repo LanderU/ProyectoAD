@@ -10,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -53,7 +51,6 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Introduzca el driver");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la Base de datos");
             System.out.println(ex.getMessage().toString());
         }
         try {
@@ -246,7 +243,44 @@ public class VentGestionGlobal1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        try {
+            // Rellenamos el otro combo con los datos de las piezas asociadas
+            Class.forName(datosCon.getFOR_NAME());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentGestionGlobal1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {   
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+        } catch (SQLException ex) {
+            Logger.getLogger(VentGestionGlobal1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            sql = "SELECT cod_pieza FROM gestion where cod_proveedor ='" + jComboBox1.getSelectedItem().toString() + "'";
+        try {
+            resul = query.executeQuery(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentGestionGlobal1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                jComboBox2.removeAllItems();
+        try {
+            while (resul.next()) {
+                jComboBox2.addItem(resul.getString("cod_pieza"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VentGestionGlobal1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (jComboBox2.getSelectedItem() != null) {
+            try {
+                query = con.createStatement();
+                sql = "SELECT * from pieza where codigo = '" + jComboBox2.getSelectedItem().toString() + "'";
+                resul = query.executeQuery(sql);
+                if (resul.next()) {
+                    jTextField2.setText(resul.getString("nombre") + String.valueOf(resul.getFloat("precio")) + resul.getString("descripcion"));
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error en la BD");
+            }
 
+        }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

@@ -19,3 +19,6 @@ hs_err_pid*
 /NetBeans/ServidorFTPHilos/nbproject/private/
 /NetBeans/ServidorFTPHilos/build/
 /NetBeans/ProyectoAD/dist/
+
+#Class
+/NetBeans/ProyectoAD//src/proyectoad/DatosConexionBD.java
