@@ -15,10 +15,11 @@ this.setSize(400,280);
 }
 @Override
 public void paintComponent (Graphics g){
-Dimension tamanio = getSize();
-ImageIcon imagenFondo = new ImageIcon(getClass().getResource("/imagenes/mini.jpg"));
-g.drawImage(imagenFondo.getImage(),0,0,tamanio.width, tamanio.height, null);
-setOpaque(false);
-super.paintComponent(g);
-}
+    
+    Dimension tamanio = getSize();
+    ImageIcon imagenFondo = new ImageIcon(getClass().getResource("../Imagenes/mini.jpg"));
+    g.drawImage(imagenFondo.getImage(),0,0,tamanio.width, tamanio.height, null);
+    setOpaque(false);
+    super.paintComponent(g);
+    }
 }

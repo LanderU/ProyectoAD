@@ -19,6 +19,7 @@ public class VentAcercaDe extends javax.swing.JFrame {
      * Creates new form VentAcercaDe
      */
     public VentAcercaDe() {
+        
         initComponents();
     }
 

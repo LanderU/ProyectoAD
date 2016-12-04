@@ -28,6 +28,7 @@ public class VentPiezaNombre extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     public VentPiezaNombre() {
+        
         initComponents();
 
         //Borramos contenidos de labels y combobox

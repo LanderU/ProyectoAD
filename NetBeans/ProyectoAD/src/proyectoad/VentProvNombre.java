@@ -28,6 +28,7 @@ public class VentProvNombre extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     public VentProvNombre() {
+        
         initComponents();
         jComboBox1.removeAllItems();
         jLabel6.setText("");

@@ -29,6 +29,7 @@ public class VentPiezaPrecio extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     public VentPiezaPrecio() {
+        
         initComponents();
 
         //Borramos contenidos de labels y combobox

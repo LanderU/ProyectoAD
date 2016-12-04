@@ -30,6 +30,7 @@ public class VentProyNombre extends javax.swing.JFrame {
 
     
     public VentProyNombre() {
+        
         initComponents();
         
          //Borramos contenidos de labels y combobox

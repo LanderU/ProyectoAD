@@ -28,6 +28,7 @@ public class VentProyCodigo extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     public VentProyCodigo() {
+        
         initComponents();
 
         //Borramos contenidos de labels y combobox
