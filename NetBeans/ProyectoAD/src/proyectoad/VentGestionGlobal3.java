@@ -8,6 +8,7 @@ package proyectoad;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
@@ -44,6 +45,11 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
                 jComboBox1.addItem(resultado.getString(1));
 
             }
+
+            //Cerrando conexiones
+            resultado.close();
+            query.close();
+            con.close();
 
         } catch (Exception e) {
         }
@@ -197,31 +203,32 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-
-        //Cuando se elige un item del combobox
-        try {
-
+         
+        //Cuando se elige un item del combobox1
+        if (jComboBox1.getItemCount() > 1) {
             try {
                 Class.forName(datosConexion.getFOR_NAME());
+                Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+                Statement query = con.createStatement();
+                String sql = "Select * from proveedor where codigo ='" + jComboBox1.getSelectedItem() + "'";
+                ResultSet resul = query.executeQuery(sql);
 
-            } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+                //Comentario
+                if (resul.next()) {
+                    jTextField1.setText(resul.getString(1));
+                    jTextField2.setText(resul.getString(2));
+                    
+
+                }
+                resul.close();
+                query.close();
+                con.close();
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
             }
-
-            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-            Statement query = con.createStatement();
-            String sql = "select * from pieza where codigo " + jComboBox1.getSelectedItem();
-            resultado = query.executeQuery(sql);
-
-            if (resultado.next()) {
-                jTextField1.setText(resultado.getString(1));
-                jTextField2.setText(resultado.getString(2));
-
-            }
-
-        } catch (Exception e) {
         }
-
 
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
