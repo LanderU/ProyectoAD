@@ -287,6 +287,7 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                 sql = "Select * from proveedor where codigo ='" + jComboBox1.getSelectedItem() + "'";
                 resul = query.executeQuery(sql);
 
+                //Comentario
                 if (resul.next()) {
                     jTextField1.setText(resul.getString("nombre"));
                     jTextField2.setText(resul.getString("apellidos"));
