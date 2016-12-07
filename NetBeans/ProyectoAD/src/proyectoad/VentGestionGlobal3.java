@@ -5,18 +5,53 @@
  */
 package proyectoad;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author albertonieto
  */
 public class VentGestionGlobal3 extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentGestionGlobal3
-     */
+   
+    DatosConexionBD datosConexion = new DatosConexionBD();
+    ResultSet resultado;
+
     public VentGestionGlobal3() {
-        
+
         initComponents();
+
+        jComboBox1.removeAllItems();
+        
+        try {
+            
+                 try {
+            Class.forName(datosConexion.getFOR_NAME());
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+                 
+         Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+         Statement query = con.createStatement();
+         String sql = "select * from pieza where codigo "+ jComboBox1.getSelectedItem();
+         resultado = query.executeQuery(sql);
+         
+         if(resultado.next()){
+            
+         }
+         
+                 
+            
+        } catch (Exception e) {
+        }
+        
+        
+        
     }
 
     /**
