@@ -15,11 +15,11 @@ public class ProyectoAD {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-    
-    VentanaInicio vi = new VentanaInicio();
-    vi.setVisible(true);
-    
+
+        //Mostramos la ventana inicial
+        VentanaInicio vi = new VentanaInicio();
+        vi.setVisible(true);
+
     }
-    
+
 }

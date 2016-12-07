@@ -22,15 +22,12 @@ import javax.swing.JOptionPane;
  */
 public class GestionProveedores extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GestionProveedores
-     */
     DatosConexionBD datosConexion = null;
 
     public GestionProveedores() {
         
         initComponents();
-       
+
     }
 
     /**
@@ -43,17 +40,6 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        botLimpiarProveedor = new javax.swing.JButton();
-        botInsertarProveedor = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
@@ -72,90 +58,20 @@ public class GestionProveedores extends javax.swing.JFrame {
         botAdelanteProveedor = new javax.swing.JButton();
         botFinalProveedor = new javax.swing.JButton();
         botCargarProveedores = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        botLimpiarProveedor = new javax.swing.JButton();
+        botInsertarProveedor = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel3.setText("CODIGO DE PROVEEDOR:");
-
-        jLabel4.setText("NOMBRE:");
-
-        jLabel5.setText("APELLIDOS:");
-
-        jLabel6.setText("DIRECCIÓN:");
-
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
-        botLimpiarProveedor.setText("LIMPIAR");
-        botLimpiarProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botLimpiarProveedorActionPerformed(evt);
-            }
-        });
-
-        botInsertarProveedor.setText("INSERTAR");
-        botInsertarProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botInsertarProveedorActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botLimpiarProveedor)
-                .addGap(18, 18, 18)
-                .addComponent(botInsertarProveedor)
-                .addGap(217, 217, 217))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(154, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botLimpiarProveedor)
-                    .addComponent(botInsertarProveedor))
-                .addGap(16, 16, 16))
-        );
-
-        jTabbedPane2.addTab("Gestion de Proveedores", jPanel1);
 
         jLabel2.setBackground(new java.awt.Color(153, 51, 255));
         jLabel2.setText("LISTA DE PROVEEDORES");
@@ -319,6 +235,101 @@ public class GestionProveedores extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Listado de Proveedores", jPanel2);
 
+        jLabel3.setText("CODIGO DE PROVEEDOR:");
+
+        jLabel4.setText("NOMBRE:");
+
+        jLabel5.setText("APELLIDOS:");
+
+        jLabel6.setText("DIRECCIÓN:");
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        botLimpiarProveedor.setText("LIMPIAR");
+        botLimpiarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botLimpiarProveedorActionPerformed(evt);
+            }
+        });
+
+        botInsertarProveedor.setText("INSERTAR");
+        botInsertarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botInsertarProveedorActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Volver");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(42, 42, 42)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1)
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField3)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(219, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(botLimpiarProveedor)
+                        .addGap(18, 18, 18)
+                        .addComponent(botInsertarProveedor)
+                        .addGap(240, 240, 240))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(313, 313, 313))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botLimpiarProveedor)
+                    .addComponent(botInsertarProveedor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton1))
+        );
+
+        jTabbedPane2.addTab("Gestion de Proveedores", jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -343,7 +354,8 @@ public class GestionProveedores extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     private void botLimpiarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarProveedorActionPerformed
-        // TODO add your handling code here:
+
+        //Vaciamos los textFields
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
@@ -372,8 +384,8 @@ public class GestionProveedores extends javax.swing.JFrame {
         } else if (jTextField4.getText().length() > 40) {
             JOptionPane.showMessageDialog(rootPane, "El campo dirección no puede superar los 40 caracteres");
         } else {
-            //Llamar a la funcion que haga la insercion
 
+            //Crear la conexion y Llamar a la funcion que haga la insercion
             datosConexion = new DatosConexionBD();
 
             Connection con = null;
@@ -393,6 +405,7 @@ public class GestionProveedores extends javax.swing.JFrame {
 
                 int ok = insercion.executeUpdate();
 
+                //Comprobamos que se ha ejecutado la inserción y lo notificamos
                 if (ok != 0) {
 
                     JOptionPane.showMessageDialog(null, "Proveedor añadido a la BD");
@@ -431,10 +444,12 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void botEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEliminarProveedorActionPerformed
 
         //BOTON DE ELIMINAR
+        //Comprobamos que haya un proveedor cargado
         if (jTextField8.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "No hay ningun proveedor cargado, por favor dale al boton de cargar o inserta un proveedor!!");
         } else {
-            //Llamar a la funcion que haga el borrado
+
+            //Creamos la conexión y Llamamos a la funcion que haga el borrado
             datosConexion = new DatosConexionBD();
 
             Connection con = null;
@@ -450,6 +465,7 @@ public class GestionProveedores extends javax.swing.JFrame {
                 borrar.setString(1, jTextField8.getText());
                 int ok = borrar.executeUpdate();
 
+                //Comprobamos que se haya borrado de la BD y lo notificamos
                 if (ok != 0) {
                     JOptionPane.showMessageDialog(null, "Proveedor  borrado");
                     borrar.close();
@@ -476,6 +492,7 @@ public class GestionProveedores extends javax.swing.JFrame {
     private void botModificarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botModificarProveedorActionPerformed
 
         //BOTON DE modificar
+        //Se comprueba que haya un proveedor cargado
         if (jTextField8.getText().contentEquals("")) {
             JOptionPane.showMessageDialog(rootPane, "No hay ningun proveedor cargado, por favor dale al boton de cargar o inserta un proveedor!!");
         } else {
@@ -499,6 +516,7 @@ public class GestionProveedores extends javax.swing.JFrame {
 
                 int ok = modificar.executeUpdate();
 
+                //Comprobamos que se haya modificado de la BD y lo notificamos
                 if (ok != 0) {
                     JOptionPane.showMessageDialog(null, "Proveedor  modificado");
                     modificar.close();
@@ -534,6 +552,7 @@ public class GestionProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
         }
 
+        //Se crea la conexión
         try {
 
             Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
@@ -542,6 +561,7 @@ public class GestionProveedores extends javax.swing.JFrame {
             String sql = "SELECT * FROM proveedor ORDER BY codigo;";
             resultado = query.executeQuery(sql);
 
+            //Se rellenan los textFields con los valores recogidos en el resultSet
             if (resultado.next()) {
                 System.out.println(resultado.getString(1));
                 System.out.println(resultado.getString(2));
@@ -553,6 +573,7 @@ public class GestionProveedores extends javax.swing.JFrame {
                 contador = 1;
 
             }
+           
         } catch (SQLException ex) {
             Logger.getLogger(GestionProveedores.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -661,6 +682,11 @@ public class GestionProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botAdelanteProveedorActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     
+     
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -714,6 +740,7 @@ public class GestionProveedores extends javax.swing.JFrame {
     private javax.swing.JButton botInsertarProveedor;
     private javax.swing.JButton botLimpiarProveedor;
     private javax.swing.JButton botModificarProveedor;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

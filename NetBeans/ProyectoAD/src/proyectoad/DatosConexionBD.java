@@ -10,7 +10,10 @@ package proyectoad;
  * @author lander
  */
 public class DatosConexionBD {
+<<<<<<< HEAD
   
+=======
+>>>>>>> 539a0fac7045aeeea8654d7c0574143070cb06c5
     //Lander
     private String FOR_NAME="com.mysql.jdbc.Driver";
     private String CONNECTION="jdbc:mysql://localhost/?allowMultiQueries=true";
