@@ -641,10 +641,12 @@ public class VentanaInicio extends javax.swing.JFrame {
         VentanaGestionGlobal1 v1 = null;
         try {
             v1 = new VentanaGestionGlobal1();
+            
         } catch (SQLException ex) {
             Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        v1.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
