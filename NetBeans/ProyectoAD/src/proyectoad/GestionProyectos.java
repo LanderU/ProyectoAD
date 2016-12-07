@@ -29,6 +29,7 @@ public class GestionProyectos extends javax.swing.JFrame {
     
     
     public GestionProyectos() {
+        
         initComponents();
     }
 

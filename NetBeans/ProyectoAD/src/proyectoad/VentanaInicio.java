@@ -32,6 +32,7 @@ public class VentanaInicio extends javax.swing.JFrame {
      * Creates new form VentanaInicio
      */
     public static void crearDataBase() {
+        
         DatosConexionBD datosConexion = new DatosConexionBD();
         BufferedReader input = null;
         try {
@@ -581,7 +582,12 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
 
-        VentGestionGlobal1 v1 = new VentGestionGlobal1();
+        VentanaGestionGlobal1 v1 = null;
+        try {
+            v1 = new VentanaGestionGlobal1();
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
         v1.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem16ActionPerformed

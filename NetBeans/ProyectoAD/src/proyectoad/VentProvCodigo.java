@@ -26,6 +26,7 @@ public class VentProvCodigo extends javax.swing.JFrame {
     DatosConexionBD datosConexion = null;
 
     public VentProvCodigo() {
+        
         initComponents();
         //Borramos contenidos de labels y combobox
         jComboBox1.removeAllItems();
