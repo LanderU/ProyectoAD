@@ -25,6 +25,7 @@ public class VentGestionGlobal2 extends javax.swing.JFrame {
     ResultSet resultado = null;
 
     public VentGestionGlobal2() {
+       
 
         initComponents();
 
@@ -101,6 +102,11 @@ public class VentGestionGlobal2 extends javax.swing.JFrame {
         });
 
         jButton1.setText("Ver piezas suministradas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,6 +206,39 @@ public class VentGestionGlobal2 extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            Class.forName(datosConexion.getFOR_NAME());
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
+        }
+
+        try {
+
+            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
+
+            Statement query = con.createStatement();
+            String sql = "SELECT count(*),sum(cantidad) FROM gestion where cod_proveedor = '"+jComboBox1.getSelectedItem().toString()+"' ORDER BY cod_proveedor";
+            resultado = query.executeQuery(sql);
+
+            if (resultado.next()) {
+
+                jTextField4.setText(resultado.getString(2));
+                jTextField5.setText(resultado.getString(1));
+
+            }
+            resultado.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedores.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
