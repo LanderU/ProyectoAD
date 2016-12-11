@@ -18,8 +18,12 @@ import javax.swing.JOptionPane;
  */
 public class VentGestionGlobal3 extends javax.swing.JFrame {
 
-    DatosConexionBD datosConexion = new DatosConexionBD();
-    ResultSet resultado;
+    // Variables globales
+    DatosConexionBD datosCon = new DatosConexionBD();
+    Statement query = null;
+    Connection con = null;
+    ResultSet resul = null;
+    String sql = "";
 
     public VentGestionGlobal3() {
 
@@ -30,24 +34,24 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         try {
 
             try {
-                Class.forName(datosConexion.getFOR_NAME());
+                Class.forName(datosCon.getFOR_NAME());
 
             } catch (ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
             }
 
-            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-            Statement query = con.createStatement();
-            String sql = "select * from pieza ";
-            resultado = query.executeQuery(sql);
+            Connection con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            String sql = "select * from pieza";
+            resul = query.executeQuery(sql);
 
-            while (resultado.next()) {
-                jComboBox1.addItem(resultado.getString(1));
+            while (resul.next()) {
+                jComboBox1.addItem(resul.getString(1));
 
             }
 
             //Cerrando conexiones
-            resultado.close();
+            resul.close();
             query.close();
             con.close();
 
@@ -207,13 +211,12 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         //Cuando se elige un item del combobox1
         if (jComboBox1.getItemCount() > 1) {
             try {
-                Class.forName(datosConexion.getFOR_NAME());
-                Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-                Statement query = con.createStatement();
-                String sql = "Select * from proveedor where codigo ='" + jComboBox1.getSelectedItem() + "'";
-                ResultSet resul = query.executeQuery(sql);
-
-                //Comentario
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "Select * from pieza where codigo ='" + jComboBox1.getSelectedItem() + "'";
+                resul = query.executeQuery(sql);
+ 
                 if (resul.next()) {
                     jTextField1.setText(resul.getString(1));
                     jTextField2.setText(resul.getString(2));

@@ -35,6 +35,11 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
         jComboBox1.removeAllItems();
         jComboBox2.removeAllItems();
         jComboBox3.removeAllItems();
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
+        jButton4.setEnabled(false);
+
         try {
             Class.forName(datosCon.getFOR_NAME());
             con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
@@ -165,10 +170,25 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
         });
 
         jButton1.setText("Insertar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Modificar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Listado");
 
@@ -177,12 +197,16 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel4)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,12 +267,7 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                     .addComponent(jButton4))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4))
+                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,12 +279,14 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))))
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -311,8 +332,8 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
-        
-          //Cuando se elige un item del combobox2
+
+        //Cuando se elige un item del combobox2
         if (jComboBox2.getItemCount() > 1) {
             try {
                 Class.forName(datosCon.getFOR_NAME());
@@ -336,13 +357,13 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                 System.out.println(ex.getMessage().toString());
             }
         }
-        
-        
+
+
     }//GEN-LAST:event_jComboBox2ItemStateChanged
 
     private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
-        
-             //Cuando se elige un item del combobox3
+
+        //Cuando se elige un item del combobox3
         if (jComboBox3.getItemCount() > 1) {
             try {
                 Class.forName(datosCon.getFOR_NAME());
@@ -356,18 +377,152 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                     jTextField8.setText(resul.getString("ciudad"));
 
                 }
-                resul.close();
-                query.close();
-                con.close();
             } catch (ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null, "Introduzca el driver");
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage().toString());
             }
+
+            try {
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "select cantidad\n"
+                        + "from gestion\n"
+                        + "where cod_proveedor = '" + jComboBox1.getSelectedItem() + "'\n"
+                        + "and cod_pieza = '" + jComboBox2.getSelectedItem() + "'\n"
+                        + "and cod_proyecto = '" + jComboBox3.getSelectedItem() + "'";
+
+                resul = query.executeQuery(sql);
+                if (resul.next()) {
+
+                    jTextField10.setText(String.valueOf(resul.getInt("cantidad")));
+                    jButton2.setEnabled(true);
+                    jButton3.setEnabled(true);
+                    jButton4.setEnabled(true);
+                    jButton1.setEnabled(false);
+
+                } else {
+                    jTextField10.setText("-");
+                    jButton1.setEnabled(true);
+
+                }
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
+            }
+            try {
+                resul.close();
+                query.close();
+                con.close();
+            } catch (Exception e) {
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        try {
+            int valor = Integer.parseInt(jTextField10.getText());
+            try {
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "insert into gestion values ('" + jComboBox1.getSelectedItem() + "','" + jComboBox2.getSelectedItem() + "','" + jComboBox3.getSelectedItem() + "'," + valor + ")";
+                int tuplas = query.executeUpdate(sql);
+
+                if (tuplas > 0) {
+                    JOptionPane.showMessageDialog(null, "Dato guardado");
+                    jButton1.setEnabled(false);
+                    jButton2.setEnabled(true);
+                    jButton3.setEnabled(true);
+                    jButton4.setEnabled(true);
+                }
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
+            }
+            try {
+                query.close();
+                con.close();
+            } catch (Exception e) {
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El valor no puede no ser un numérico.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        // Actualizamos la cantidad
+        try {
+            int valor = Integer.parseInt(jTextField10.getText());
+            try {
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "update gestion set cantidad = "+valor+" where cod_proveedor = '"+jComboBox1.getSelectedItem()+"' and cod_pieza = '"+jComboBox2.getSelectedItem()+"' and cod_proyecto = '"+jComboBox3.getSelectedItem()+"'";
+                int tuplas = query.executeUpdate(sql);
+
+                if (tuplas > 0) {
+                    JOptionPane.showMessageDialog(null, "Dato guardado");
+                    jButton1.setEnabled(false);
+                }
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
+            }
+            try {
+                query.close();
+                con.close();
+            } catch (Exception e) {
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El valor no puede no ser un numérico.");
         }
         
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        // Borramos de la tabla gestión
+            try {
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "delete from gestion where cod_proveedor = '"+jComboBox1.getSelectedItem()+"' and cod_pieza = '"+jComboBox2.getSelectedItem()+"' and cod_proyecto = '"+jComboBox3.getSelectedItem()+"'";
+                int tuplas = query.executeUpdate(sql);
+
+                if (tuplas > 0) {
+                    JOptionPane.showMessageDialog(null, "Dato borrado");
+                    jButton1.setEnabled(false);
+                    jTextField10.setText("-");
+                    jButton1.setEnabled(true);
+                    jButton2.setEnabled(false);
+                    jButton3.setEnabled(false);
+                }
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
+            }
+            try {
+                query.close();
+                con.close();
+            } catch (Exception e) {
+            }
         
-    }//GEN-LAST:event_jComboBox3ItemStateChanged
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
