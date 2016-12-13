@@ -38,7 +38,7 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
         jButton1.setEnabled(false);
         jButton2.setEnabled(false);
         jButton3.setEnabled(false);
-        jButton4.setEnabled(false);
+        //jButton4.setEnabled(false);
 
         try {
             Class.forName(datosCon.getFOR_NAME());
@@ -127,7 +127,6 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -190,8 +189,6 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Listado");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,20 +236,17 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                             .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))))
                 .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(199, 199, 199)
-                        .addComponent(jLabel1)))
+                .addGap(199, 199, 199)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(268, 268, 268))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,8 +257,7 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton3))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -399,7 +392,7 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                     jTextField10.setText(String.valueOf(resul.getInt("cantidad")));
                     jButton2.setEnabled(true);
                     jButton3.setEnabled(true);
-                    jButton4.setEnabled(true);
+                    //jButton4.setEnabled(true);
                     jButton1.setEnabled(false);
 
                 } else {
@@ -441,7 +434,7 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
                     jButton1.setEnabled(false);
                     jButton2.setEnabled(true);
                     jButton3.setEnabled(true);
-                    jButton4.setEnabled(true);
+                    //jButton4.setEnabled(true);
                 }
             } catch (ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null, "Introduzca el driver");
@@ -567,7 +560,6 @@ public class VentanaGestionGlobal1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;

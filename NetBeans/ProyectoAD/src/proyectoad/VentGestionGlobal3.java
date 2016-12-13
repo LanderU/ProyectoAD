@@ -8,9 +8,14 @@ package proyectoad;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +29,8 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
     Connection con = null;
     ResultSet resul = null;
     String sql = "";
+    static DefaultTableModel dtm;
+    static ResultSetMetaData rsmd;
 
     public VentGestionGlobal3() {
 
@@ -108,19 +115,21 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         });
 
         jButton1.setText("Ver piezas suministradas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         jLabel5.setText("PIEZAS SUMINISTRADAS A PROYECTOS");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Codigo Proveedor", "Nombre Proveedor", "Apellidos", "Descripción"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -207,7 +216,7 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-         
+
         //Cuando se elige un item del combobox1
         if (jComboBox1.getItemCount() > 1) {
             try {
@@ -216,11 +225,10 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
                 query = con.createStatement();
                 sql = "Select * from pieza where codigo ='" + jComboBox1.getSelectedItem() + "'";
                 resul = query.executeQuery(sql);
- 
+
                 if (resul.next()) {
                     jTextField1.setText(resul.getString(1));
                     jTextField2.setText(resul.getString(2));
-                    
 
                 }
                 resul.close();
@@ -234,6 +242,93 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            Class.forName(datosCon.getFOR_NAME());
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            sql = "Select count(*) from gestion where cod_pieza ='" + jComboBox1.getSelectedItem() + "'";
+            resul = query.executeQuery(sql);
+
+            if (resul.next()) {
+                jTextField3.setText(resul.getString(1));
+
+            } else {
+                jTextField3.setText("-");
+            }
+            sql = "select count(*)\n"
+                    + "from gestion\n"
+                    + "where cod_pieza = '" + jComboBox1.getSelectedItem() + "'\n"
+                    + "ORDER BY cod_proveedor";
+            resul = query.executeQuery(sql);
+            if (resul.next()) {
+                jTextField4.setText(resul.getString(1));
+
+            } else {
+                jTextField4.setText("-");
+            }
+
+            sql = "select sum(cantidad)\n"
+                    + "from gestion\n"
+                    + "where cod_pieza = '" + jComboBox1.getSelectedItem() + "'";
+            resul = query.executeQuery(sql);
+            if (resul.next()) {
+                jTextField5.setText(resul.getString(1));
+
+            } else {
+                jTextField5.setText("-");
+            }
+            sql = "select *\n"
+                    + "from proveedor, gestion\n"
+                    + "where cod_proveedor = codigo\n"
+                    + "and cod_pieza = '" + jComboBox1.getSelectedItem() + "'";
+            resul = query.executeQuery(sql);
+            rsmd = resul.getMetaData();
+            try {
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+                    dtm.removeRow(i);
+                    i -= 1;
+                }
+                // Aquí
+                ArrayList<Object[]> datos = new ArrayList<>();
+                if (resul.isBeforeFirst()) {
+                    while (resul.next()) {
+                        Object[] filas = new Object[rsmd.getColumnCount()];
+                        for (int i = 0; i < filas.length; i++) {
+                            filas[i] = resul.getObject(i + 1);
+
+                        }
+                        datos.add(filas);
+                    }
+                    dtm = (DefaultTableModel) jTable1.getModel();
+                    for (int i = 0; i < datos.size(); i++) {
+                        dtm.addRow(datos.get(i));
+                    }
+                } else {
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        dtm.removeRow(i);
+                        i -= 1;
+                    }
+                }
+
+            } catch (Exception e) {
+            }
+
+            resul.close();
+            query.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage().toString());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentGestionGlobal3.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Introduzca el driver");
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

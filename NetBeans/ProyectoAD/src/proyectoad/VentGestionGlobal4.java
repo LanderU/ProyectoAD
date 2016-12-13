@@ -5,6 +5,11 @@
  */
 package proyectoad;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author albertonieto
@@ -14,6 +19,14 @@ public class VentGestionGlobal4 extends javax.swing.JFrame {
     /**
      * Creates new form VentGestionGlobal4
      */
+    
+        // Variables globales
+    DatosConexionBD datosCon = new DatosConexionBD();
+    Statement query = null;
+    Connection con = null;
+    ResultSet resul = null;
+    String sql = "";
+    
     public VentGestionGlobal4() {
         
         initComponents();
@@ -53,6 +66,11 @@ public class VentGestionGlobal4 extends javax.swing.JFrame {
         jLabel1.setText("RESUMENES ESTADISTICOS - PIEZAS, PROYECTOS Y PROVEEDORES");
 
         jButton1.setText("Numero de piezas y cantidad de piezas suministrada en proyectos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Numero de piezas y cantidad de piezas suministradas por proveedor");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +179,80 @@ public class VentGestionGlobal4 extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        try {
+            Class.forName(datosCon.getFOR_NAME());
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            sql = "select cod_proveedor ,sum(cantidad) as total \n" +
+                  "from gestion \n" +
+                  "group by cod_proveedor having max(total) \n" +
+                  "order by total desc";
+            resul = query.executeQuery(sql);
+            if (resul.next()){
+                jTextField1.setText(resul.getString(1));
+                jTextField2.setText(resul.getString(2));
+            }
+            sql = "select cod_proveedor ,  count(cod_proyecto) as total \n" +
+                  "from gestion \n" +
+                  "group by cod_proveedor \n" +
+                  "having max(total) \n" +
+                  "order by total desc";
+            resul = query.executeQuery(sql);
+            if(resul.next()){
+                jTextField3.setText(resul.getString(1));
+                jTextField4.setText(resul.getString(2));
+            }
+            sql = "select cod_proveedor, count(cantidad) as total\n" +
+                  "from gestion\n" +
+                  "GROUP BY cod_pieza\n" +
+                  "having max(total)\n" +
+                  "order by total desc";
+            resul = query.executeQuery(sql);
+            if(resul.next()){
+                jTextField5.setText(resul.getString(1));
+                jTextField6.setText(resul.getString(2));
+            }
+            resul.close();
+            query.close();
+            con.close();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            Class.forName(datosCon.getFOR_NAME());
+            con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            sql = "select max(cantidad), cod_pieza\n" +
+                  "from gestion\n" +
+                  "ORDER BY cod_pieza";
+            resul = query.executeQuery(sql);
+            if (resul.next()){
+                jTextField7.setText(resul.getString(2));
+                jTextField8.setText(resul.getString(1));
+            }
+            
+            sql = "select cod_pieza , count(cod_pieza) as total \n" +
+                   "from gestion \n" +
+                    "group by cod_pieza \n" +
+                    "having max(total) \n" +
+                    "order by total desc";
+            resul = query.executeQuery(sql);
+            if (resul.next()){
+                jTextField9.setText(resul.getString(1));
+                jTextField10.setText(resul.getString(2));
+            }
+            
+            query.close();
+            resul.close();
+            con.close();
+           
+        } catch (Exception e) {
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
