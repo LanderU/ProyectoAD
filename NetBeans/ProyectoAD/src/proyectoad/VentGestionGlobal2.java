@@ -195,6 +195,10 @@ public class VentGestionGlobal2 extends javax.swing.JFrame {
                     jTextField2.setText(resTemp.getString(3));
                     jTextField3.setText(resTemp.getString(4));
 
+                }else{
+                    jTextField4.setText("-");
+                    jTextField5.setText("-");
+                    
                 }
                 resTemp.close();
                 con.close();

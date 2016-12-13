@@ -18,8 +18,12 @@ import javax.swing.JOptionPane;
  */
 public class VentGestionGlobal3 extends javax.swing.JFrame {
 
-    DatosConexionBD datosConexion = new DatosConexionBD();
-    ResultSet resultado;
+    // Variables globales
+    DatosConexionBD datosCon = new DatosConexionBD();
+    Statement query = null;
+    Connection con = null;
+    ResultSet resul = null;
+    String sql = "";
 
     public VentGestionGlobal3() {
 
@@ -30,24 +34,24 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         try {
 
             try {
-                Class.forName(datosConexion.getFOR_NAME());
+                Class.forName(datosCon.getFOR_NAME());
 
             } catch (ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Recuerda insertar el driver");
             }
 
-            Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-            Statement query = con.createStatement();
-            String sql = "select * from pieza ";
-            resultado = query.executeQuery(sql);
+            Connection con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+            query = con.createStatement();
+            String sql = "select * from pieza";
+            resul = query.executeQuery(sql);
 
-            while (resultado.next()) {
-                jComboBox1.addItem(resultado.getString(1));
+            while (resul.next()) {
+                jComboBox1.addItem(resul.getString(1));
 
             }
 
             //Cerrando conexiones
-            resultado.close();
+            resul.close();
             query.close();
             con.close();
 
@@ -104,6 +108,11 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         });
 
         jButton1.setText("Ver piezas suministradas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         jLabel5.setText("PIEZAS SUMINISTRADAS A PROYECTOS");
@@ -207,13 +216,12 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         //Cuando se elige un item del combobox1
         if (jComboBox1.getItemCount() > 1) {
             try {
-                Class.forName(datosConexion.getFOR_NAME());
-                Connection con = DriverManager.getConnection(datosConexion.getCONNECTION_SCHEMA(), datosConexion.getUSERNAME(), datosConexion.getPASSWORD());
-                Statement query = con.createStatement();
-                String sql = "Select * from proveedor where codigo ='" + jComboBox1.getSelectedItem() + "'";
-                ResultSet resul = query.executeQuery(sql);
-
-                //Comentario
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "Select * from pieza where codigo ='" + jComboBox1.getSelectedItem() + "'";
+                resul = query.executeQuery(sql);
+ 
                 if (resul.next()) {
                     jTextField1.setText(resul.getString(1));
                     jTextField2.setText(resul.getString(2));
@@ -231,6 +239,55 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         try {
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "Select count(*) from gestion where cod_pieza ='" + jComboBox1.getSelectedItem() + "'";
+                resul = query.executeQuery(sql);
+ 
+                if (resul.next()) {
+                    jTextField3.setText(resul.getString(1));
+ 
+                }else{
+                    jTextField3.setText("-");
+                }
+                sql = "select count(*)\n" +
+                      "from gestion\n" +
+                      "where cod_pieza = '"+jComboBox1.getSelectedItem()+"'\n" +
+                      "ORDER BY cod_proveedor";
+                resul = query.executeQuery(sql);
+                if (resul.next()) {
+                    jTextField4.setText(resul.getString(1));
+ 
+                }else{
+                    jTextField4.setText("-");
+                }
+                
+                sql = "select sum(cantidad)\n" +
+                      "from gestion\n" +
+                       "where cod_pieza = '"+jComboBox1.getSelectedItem()+"'";
+                resul = query.executeQuery(sql);
+                   if (resul.next()) {
+                    jTextField5.setText(resul.getString(1));
+ 
+                }else{
+                    jTextField5.setText("-");
+                }     
+                resul.close();
+                query.close();
+                con.close();
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
+            }
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

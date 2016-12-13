@@ -10,7 +10,6 @@ package proyectoad;
  * @author lander
  */
 public class DatosConexionBD {
-/*
     //Lander
     private String FOR_NAME="com.mysql.jdbc.Driver";
     private String CONNECTION="jdbc:mysql://localhost/?allowMultiQueries=true";
@@ -18,14 +17,14 @@ public class DatosConexionBD {
     private String PASSWORD="erle";
     private String CONNECTION_SCHEMA="jdbc:mysql://localhost/proyectoAd?noAccessToProcedureBodies=true";  
     // Alberto
-*/
+ /*   
     private String FOR_NAME="com.mysql.jdbc.Driver";
     private String CONNECTION="jdbc:mysql://192.168.33.10/?allowMultiQueries=true";
     private String USERNAME="root";
     private String PASSWORD="root";
     private String CONNECTION_SCHEMA="jdbc:mysql://192.168.33.10/proyectoAd?noAccessToProcedureBodies=true";
 
-
+*/
     public String getCONNECTION_SCHEMA() {
         return CONNECTION_SCHEMA;
     }
