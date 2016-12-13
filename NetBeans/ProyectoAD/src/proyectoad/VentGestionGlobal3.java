@@ -328,6 +328,53 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         }
 
 
+=======
+         try {
+                Class.forName(datosCon.getFOR_NAME());
+                con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
+                query = con.createStatement();
+                sql = "Select count(*) from gestion where cod_pieza ='" + jComboBox1.getSelectedItem() + "'";
+                resul = query.executeQuery(sql);
+ 
+                if (resul.next()) {
+                    jTextField3.setText(resul.getString(1));
+ 
+                }else{
+                    jTextField3.setText("-");
+                }
+                sql = "select count(*)\n" +
+                      "from gestion\n" +
+                      "where cod_pieza = '"+jComboBox1.getSelectedItem()+"'\n" +
+                      "ORDER BY cod_proveedor";
+                resul = query.executeQuery(sql);
+                if (resul.next()) {
+                    jTextField4.setText(resul.getString(1));
+ 
+                }else{
+                    jTextField4.setText("-");
+                }
+                
+                sql = "select sum(cantidad)\n" +
+                      "from gestion\n" +
+                       "where cod_pieza = '"+jComboBox1.getSelectedItem()+"'";
+                resul = query.executeQuery(sql);
+                   if (resul.next()) {
+                    jTextField5.setText(resul.getString(1));
+ 
+                }else{
+                    jTextField5.setText("-");
+                }     
+                resul.close();
+                query.close();
+                con.close();
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Introduzca el driver");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage().toString());
+            }
+        
+        
+>>>>>>> 43f837863a367a8e251a71715b9b43d1ed23406f
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

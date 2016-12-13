@@ -7,7 +7,8 @@ create table pieza(
 	nombre varchar(20) not null,
 	precio float not null,
 	descripcion text,
-	constraint pk_codigo_piezas primary key(codigo)
+	constraint pk_codigo_piezas primary key(codigo),
+	ON DELETE CASCADE
 );
 
 insert into pieza values('pie001','cancamo', 120.50, 'cancamo: pieza muy util y necesaria');
@@ -23,7 +24,8 @@ create table proveedor(
 	nombre varchar(20) not null,
 	apellidos varchar(30) not null,
 	direccion varchar(40) not null,
-	constraint pk_codigo_proveedores primary key(codigo)
+	constraint pk_codigo_proveedores primary key(codigo),
+	ON DELETE CASCADE
 );
 
 insert into proveedor values('pro001','egido', 'jimenez', 'paseo de la senda');
@@ -36,7 +38,8 @@ create table proyecto(
 	codigo varchar(6),
 	nombre varchar(40) not null,
 	ciudad varchar(40),
-	constraint pk_codigo_proyectos primary key(codigo)
+	constraint pk_codigo_proyectos primary key(codigo),
+	ON DELETE CASCADE
 );
 
 insert into proyecto values('y00001','manhatan', 'nuevayork');
