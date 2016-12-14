@@ -328,7 +328,7 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
         }
 
 
-=======
+
          try {
                 Class.forName(datosCon.getFOR_NAME());
                 con = DriverManager.getConnection(datosCon.getCONNECTION_SCHEMA(), datosCon.getUSERNAME(), datosCon.getPASSWORD());
@@ -374,7 +374,8 @@ public class VentGestionGlobal3 extends javax.swing.JFrame {
             }
         
         
->>>>>>> 43f837863a367a8e251a71715b9b43d1ed23406f
+
+         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
